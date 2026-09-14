@@ -1,0 +1,1035 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chá de Bebê - Presentes & Palpites</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-girl: #f48fb1;
+      --primary-boy: #64b5f6;
+      --primary: #ec407a;
+      --accent: #ab47bc;
+      --bg: #fffdfa;
+      --card-bg: #ffffff;
+      --text: #37474f;
+      --text-muted: #78909c;
+      --border: #eceff1;
+      --success: #43a047;
+      --warning: #ffa726;
+      --shield-bg: #f0f7f4;
+      --shield-border: #b2dfdb;
+      --shield-text: #004d40;
+      --awareness-bg: #fff8e1;
+      --awareness-border: #ffe082;
+      --awareness-text: #5d4037;
+      --affiliate-btn: #ff9900;
+      --affiliate-hover: #e68a00;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 70px;
+    }
+
+    header {
+      background: linear-gradient(135deg, #fce4ec 0%, #e3f2fd 100%);
+      padding: 35px 20px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      color: #37474f;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #546e7a;
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto 20px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .tab-btn {
+      background: #ffffff;
+      border: 2px solid transparent;
+      padding: 10px 24px;
+      border-radius: 25px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #546e7a;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn.active {
+      background: #37474f;
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(55,71,79,0.25);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 25px 20px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------------- LISTA DE PRESENTES ---------------- */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .filter-btn {
+      background: #fff;
+      border: 1px solid #cfd8dc;
+      padding: 7px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-family: inherit;
+      font-weight: 600;
+      color: var(--text);
+      transition: 0.2s;
+    }
+
+    .filter-btn.active, .filter-btn:hover {
+      background-color: #37474f;
+      color: #fff;
+      border-color: #37474f;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #f5f5f5;
+    }
+
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: #eceff1;
+      color: #455a64;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+      flex-grow: 1;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 11px 15px;
+      border: none;
+      border-radius: 10px;
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #d81b60;
+    }
+
+    .btn-affiliate {
+      background: var(--affiliate-btn);
+      color: #fff;
+      margin-top: 10px;
+      box-shadow: 0 4px 10px rgba(255, 153, 0, 0.3);
+    }
+
+    .btn-affiliate:hover {
+      background: var(--affiliate-hover);
+    }
+
+    .btn-disabled {
+      background: #cfd8dc;
+      color: #78909c;
+      cursor: not-allowed;
+    }
+
+    /* ---------------- BRINCADEIRA DO PALPITE ---------------- */
+    .bolao-banner {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe082 100%);
+      padding: 20px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      border: 1px solid #ffe082;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .bolao-banner h2 {
+      font-size: 1.4rem;
+      color: #e65100;
+    }
+
+    .bolao-banner p {
+      font-size: 0.95rem;
+      color: #5d4037;
+    }
+
+    .awareness-banner {
+      background-color: var(--awareness-bg);
+      border: 1px solid var(--awareness-border);
+      border-radius: 14px;
+      padding: 15px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .awareness-banner .icon {
+      font-size: 1.6rem;
+    }
+
+    .awareness-banner p {
+      font-size: 0.88rem;
+      color: var(--awareness-text);
+      line-height: 1.4;
+    }
+
+    .security-banner {
+      background-color: var(--shield-bg);
+      border: 1px solid var(--shield-border);
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 25px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .security-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+
+    .security-content h4 {
+      font-size: 1rem;
+      color: var(--shield-text);
+      margin-bottom: 4px;
+      font-weight: 700;
+    }
+
+    .security-content p {
+      font-size: 0.88rem;
+      color: #00695c;
+      line-height: 1.4;
+    }
+
+    .security-content ul {
+      margin-top: 6px;
+      padding-left: 18px;
+      font-size: 0.85rem;
+      color: #00695c;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      text-align: center;
+    }
+
+    .stat-card .num {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-top: 5px;
+      color: #263238;
+    }
+
+    .stat-card .label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .bar-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      margin-bottom: 25px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+
+    .progress-track {
+      height: 38px;
+      background: #eceff1;
+      border-radius: 19px;
+      overflow: hidden;
+      display: flex;
+      margin: 12px 0;
+      border: 2px solid #fff;
+      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .bar-boy {
+      background: var(--primary-boy);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: width 0.6s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .bar-girl {
+      background: var(--primary-girl);
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: width 0.6s ease;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .bar-legend {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .groups-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+
+    .group-card {
+      background: #fff;
+      padding: 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .group-card h4 {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #37474f;
+    }
+
+    .group-track {
+      height: 20px;
+      background: #eceff1;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      margin: 8px 0;
+    }
+
+    /* Formulário */
+    .form-card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #cfd8dc;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .gender-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .gender-radio {
+      position: relative;
+    }
+
+    .gender-radio input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .gender-radio label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      border: 2px solid #cfd8dc;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.05rem;
+      transition: all 0.2s;
+    }
+
+    .gender-radio input:checked + label.boy {
+      border-color: var(--primary-boy);
+      background-color: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .gender-radio input:checked + label.girl {
+      border-color: var(--primary-girl);
+      background-color: #fce4ec;
+      color: #c2185b;
+    }
+
+    .pix-box {
+      background: #f1f8e9;
+      border: 1px dashed #8bc34a;
+      padding: 15px;
+      border-radius: 12px;
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .pix-key {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #33691e;
+      user-select: all;
+      word-break: break-all;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 200;
+    }
+
+    .modal {
+      background: #fff;
+      padding: 26px;
+      border-radius: 18px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      animation: popIn 0.25s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .modal-step-success {
+      text-align: center;
+    }
+
+    .modal-step-success .icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍼 Chá de Bebê da Família</h1>
+    <p>Participe da lista de presentes e divirta-se na nossa Brincadeira do Palpite!</p>
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="switchTab('tab-bolao', this)">🎲 Brincadeira do Palpite</button>
+      <button class="tab-btn" onclick="switchTab('tab-presentes', this)">🎁 Lista de Presentes</button>
+    </div>
+  </header>
+
+  <!-- ================= ABA PALPITES ================= -->
+  <main class="container tab-content active" id="tab-bolao">
+    
+    <div class="bolao-banner">
+      <div>
+        <h2>🏆 Como funciona a nossa Brincadeira</h2>
+        <p>Contribuição simbólica: <strong>R$ 10,00 por participante</strong>. Metade (50%) é revertida em prêmio comemorativo para quem acertar o palpite e a outra metade (50%) vai direto para o enxoval do <strong>Baby Black Friday</strong>!</p>
+      </div>
+    </div>
+
+    <div class="awareness-banner">
+      <div class="icon">💛</div>
+      <p>
+        <strong>Ambiente Familiar & Recreativo:</strong> Esta é uma dinâmica afetiva, lúdica e sem fins lucrativos, criada exclusivamente para celebrar a chegada do bebê entre amigos e parentes. A participação é 100% voluntária e com valor fixo simbólico. Não promovemos apostas comerciais ou jogos de azar.
+      </p>
+    </div>
+
+    <div class="security-banner">
+      <div class="security-icon">🔒</div>
+      <div class="security-content">
+        <h4>Privacidade e Segurança das Contribuições</h4>
+        <p>Para garantir tranquilidade e transparência a todos os convidados:</p>
+        <ul>
+          <li><strong>Privacidade Garantida:</strong> Seus contatos (como WhatsApp) são usados apenas pela organização para avisar sobre o resultado e <u>nunca</u> ficam expostos no site.</li>
+          <li><strong>Validação Segura:</strong> As contribuições são confirmadas via conferência bancária para manter as métricas sempre corretas.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="label">Total Arrecadado</div>
+        <div class="num" id="stat-total">R$ 0,00</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Premiação Ganhadores (50%)</div>
+        <div class="num" style="color: #2e7d32;" id="stat-premio">R$ 0,00</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Baby Black Friday (50%)</div>
+        <div class="num" style="color: #e65100;" id="stat-baby">R$ 0,00</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Palpites Confirmados</div>
+        <div class="num" style="color: #0288d1;" id="stat-apostas">0</div>
+      </div>
+    </div>
+
+    <div class="bar-container">
+      <div class="section-title">📊 Termômetro Geral dos Palpites</div>
+      <div class="bar-legend">
+        <span style="color: #1976d2;">👦 Menino: <span id="pct-boy">50%</span> (<span id="count-boy">0</span> votos)</span>
+        <span style="color: #c2185b;">👧 Menina: <span id="pct-girl">50%</span> (<span id="count-girl">0</span> votos)</span>
+      </div>
+      <div class="progress-track">
+        <div class="bar-boy" id="bar-boy" style="width: 50%;">Menino</div>
+        <div class="bar-girl" id="bar-girl" style="width: 50%;">Menina</div>
+      </div>
+    </div>
+
+    <div class="section-title">👥 Disputa Amigável por Grupos</div>
+    <div class="groups-grid" id="groups-container"></div>
+
+    <div class="form-card">
+      <div class="section-title" style="justify-content: center; margin-bottom: 20px;">✍️ Deixar meu Palpite</div>
+      
+      <form id="bolao-form" onsubmit="handleBolaoSubmit(event)">
+        <div class="form-group">
+          <label>Seu Nome Completo:</label>
+          <input type="text" id="bet-name" placeholder="Ex: Maria Clara" required />
+        </div>
+
+        <div class="form-group">
+          <label>WhatsApp / Telefone:</label>
+          <input type="tel" id="bet-phone" placeholder="(31) 99999-9999" required />
+          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">🔒 Usado apenas para avisar os vencedores (não fica visível publicamente).</span>
+        </div>
+
+        <div class="form-group">
+          <label>Qual é o seu Grupo?</label>
+          <select id="bet-group" required>
+            <option value="">Selecione seu vínculo...</option>
+            <option value="Família do Pai">👨‍👩‍👦 Família do Pai</option>
+            <option value="Família da Mãe">👩‍👩‍👦 Família da Mãe</option>
+            <option value="Amigos do Pai">⚽ Amigos do Pai</option>
+            <option value="Amigos da Mãe">🌸 Amigos da Mãe</option>
+            <option value="Outros">✨ Outros / Colegas</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Qual é o seu Palpite?</label>
+          <div class="gender-selector">
+            <div class="gender-radio">
+              <input type="radio" id="gender-boy" name="gender" value="Menino" required />
+              <label for="gender-boy" class="boy">👦 Menino</label>
+            </div>
+            <div class="gender-radio">
+              <input type="radio" id="gender-girl" name="gender" value="Menina" required />
+              <label for="gender-girl" class="girl">👧 Menina</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Valor da Contribuição:</label>
+          <input type="text" value="R$ 10,00 (Valor Fixo por Participante)" disabled style="background: #f5f5f5; font-weight: 700; color: #37474f;" />
+        </div>
+
+        <div class="form-group">
+          <label>Nome do Titular do PIX <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
+          <input type="text" id="bet-pagador" placeholder="Preencha se outra pessoa pagou o PIX por você" />
+          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">Ex: se alguém fez um PIX único cobrindo você e outra pessoa, informe o nome de quem fez a transferência.</span>
+        </div>
+
+        <div class="pix-box">
+          <p style="font-size: 0.85rem; color: #558b2f;">Faça o PIX para confirmar sua participação:</p>
+          <div class="pix-key">sua-chave-pix@email.com</div>
+          <p style="font-size: 0.8rem; color: #689f38; margin-top: 4px;">Titular: Andréia Gonçalves</p>
+        </div>
+
+        <div class="form-group">
+          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem;">
+            <input type="checkbox" id="bet-paid" required style="width: auto;" />
+            Confirmo que realizei a transferência via PIX
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="btn-submit-bet">Confirmar Palpite</button>
+      </form>
+    </div>
+
+  </main>
+
+
+  <!-- ================= ABA LISTA DE PRESENTES ================= -->
+  <main class="container tab-content" id="tab-presentes">
+    <div class="filters" id="filters-container">
+      <button class="filter-btn active" onclick="filterPresents('Todos')">Todos</button>
+    </div>
+
+    <div class="grid" id="presents-grid"></div>
+  </main>
+
+
+  <!-- Modal de Confirmação e Exibição do Link de Afiliado -->
+  <div class="modal-overlay" id="reserve-modal">
+    <div class="modal">
+      
+      <div id="modal-step-form">
+        <h3 id="modal-item-name" style="margin-bottom: 10px; color: #37474f;">Reservar Presente</h3>
+        <p style="font-size: 0.9rem; color: #666; margin-bottom: 14px;">Preencha seus dados para marcar o item como reservado e liberar o link da loja:</p>
+        
+        <label style="font-size: 0.85rem; font-weight: 700; color: #546e7a;">Seu Nome Completo:</label>
+        <input type="text" id="guest-name" placeholder="Nome completo" style="width:100%; padding:10px; margin:5px 0 16px; border-radius:8px; border:1px solid #cfd8dc; font-family:inherit;" required />
+        
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-disabled" onclick="closeModal()" style="background:#eee; color:#555;">Cancelar</button>
+          <button class="btn btn-primary" id="btn-confirm-present" onclick="submitPresentReservation()">Confirmar e Ver Link</button>
+        </div>
+      </div>
+
+      <div id="modal-step-success" class="modal-step-success" style="display: none;">
+        <div class="icon">🎁</div>
+        <h3 style="color: #2e7d32; margin-bottom: 8px;">Presente Reservado!</h3>
+        <p style="font-size: 0.9rem; color: #546e7a; margin-bottom: 16px;">
+          Muito obrigado pelo carinho! Você pode comprar o presente na sua loja preferida ou acessar a sugestão direta abaixo:
+        </p>
+
+        <a id="btn-open-affiliate" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-affiliate">
+          🛍️ Abrir Sugestão de Compra na Loja
+        </a>
+
+        <button class="btn" onclick="closeModal()" style="background: transparent; color: #78909c; margin-top: 10px;">
+          Fechar Janela
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script>
+    // ⚙️ URL DO GOOGLE APPS SCRIPT
+    const API_URL = "https://script.google.com/macros/s/AKfycbwu9bBtXzrZmxzJp-p6P0Gk07qWzR5-7GC7iVi7WY8--aVCK01Lmm_gBLi0ooWVyFP2/exec";
+
+    let presentsData = [];
+    let betsData = [];
+    let selectedPresent = null;
+
+    function switchTab(tabId, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    async function loadData() {
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        
+        presentsData = data.presentes || [];
+        betsData = data.bolao || [];
+
+        renderPresents(presentsData);
+        renderPresentsFilters();
+        updateBolaoDashboard();
+      } catch (e) {
+        console.warn("Usando mock local ou erro de rede", e);
+        mockData();
+      }
+    }
+
+    function mockData() {
+      presentsData = [
+        { ID: "1", Item: "Cadeira de Papinha", Categoria: "Alimentação", Descricao: "Cadeira alta ergonômica", Imagem: "https://raw.githubusercontent.com/AGTasksDataScience/cha-de-bebe/main/img/alimentacao/cadeira-papinha.jpg", Link: "https://amzn.to/SEU_LINK", Status: "Disponivel", Reservado_Por: "" },
+        { ID: "2", Item: "Banheira Ergonômica", Categoria: "Higiene e Banho", Descricao: "Banheira com suporte", Imagem: "https://raw.githubusercontent.com/AGTasksDataScience/cha-de-bebe/main/img/higiene-e-banho/banheira-ergonomica.jpg", Link: "https://s.shopee.com.br/SEU_LINK", Status: "Disponivel", Reservado_Por: "" }
+      ];
+      betsData = [
+        { Nome: "Carlos", Grupo: "Família do Pai", Palpite: "Menino", Valor: 10, Pagador_PIX: "Carlos", Pago: "Sim" },
+        { Nome: "Ana", Grupo: "Família da Mãe", Palpite: "Menina", Valor: 10, Pagador_PIX: "Carlos", Pago: "Sim" }
+      ];
+      renderPresents(presentsData);
+      renderPresentsFilters();
+      updateBolaoDashboard();
+    }
+
+    function updateBolaoDashboard() {
+      const paidBets = betsData.filter(b => String(b.Pago).toLowerCase() === 'sim' || b.Pago === true);
+
+      let totalBoy = 0;
+      let totalGirl = 0;
+      let countBoy = 0;
+      let countGirl = 0;
+      let totalMoney = 0;
+
+      const groupStats = {
+        "Família do Pai": { boy: 0, girl: 0 },
+        "Família da Mãe": { boy: 0, girl: 0 },
+        "Amigos do Pai": { boy: 0, girl: 0 },
+        "Amigos da Mãe": { boy: 0, girl: 0 },
+        "Outros": { boy: 0, girl: 0 }
+      };
+
+      paidBets.forEach(bet => {
+        const val = parseFloat(bet.Valor) || 10;
+        totalMoney += val;
+        const palpite = (bet.Palpite || '').toLowerCase();
+        const grupo = bet.Grupo || 'Outros';
+
+        if (!groupStats[grupo]) groupStats[grupo] = { boy: 0, girl: 0 };
+
+        if (palpite.includes('menino')) {
+          countBoy++;
+          totalBoy += val;
+          groupStats[grupo].boy++;
+        } else if (palpite.includes('menina')) {
+          countGirl++;
+          totalGirl++;
+          groupStats[grupo].girl++;
+        }
+      });
+
+      const premio = totalMoney * 0.5;
+      const babyBlackFriday = totalMoney * 0.5;
+
+      document.getElementById('stat-total').innerText = totalMoney.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      document.getElementById('stat-premio').innerText = premio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      document.getElementById('stat-baby').innerText = babyBlackFriday.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      document.getElementById('stat-apostas').innerText = paidBets.length;
+
+      const totalCount = countBoy + countGirl;
+      const pctBoy = totalCount > 0 ? Math.round((countBoy / totalCount) * 100) : 50;
+      const pctGirl = totalCount > 0 ? (100 - pctBoy) : 50;
+
+      document.getElementById('pct-boy').innerText = `${pctBoy}%`;
+      document.getElementById('count-boy').innerText = countBoy;
+      document.getElementById('pct-girl').innerText = `${pctGirl}%`;
+      document.getElementById('count-girl').innerText = countGirl;
+
+      document.getElementById('bar-boy').style.width = `${pctBoy}%`;
+      document.getElementById('bar-girl').style.width = `${pctGirl}%`;
+      document.getElementById('bar-boy').innerText = pctBoy > 15 ? `👦 ${pctBoy}%` : '';
+      document.getElementById('bar-girl').innerText = pctGirl > 15 ? `👧 ${pctGirl}%` : '';
+
+      const groupsContainer = document.getElementById('groups-container');
+      groupsContainer.innerHTML = Object.keys(groupStats).map(grp => {
+        const g = groupStats[grp];
+        const gTotal = g.boy + g.girl;
+        const gPctBoy = gTotal > 0 ? Math.round((g.boy / gTotal) * 100) : 50;
+        const gPctGirl = gTotal > 0 ? (100 - gPctBoy) : 50;
+
+        return `
+          <div class="group-card">
+            <h4>${grp}</h4>
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
+              <span style="color:#1976d2">👦 ${gPctBoy}% (${g.boy})</span>
+              <span style="color:#c2185b">👧 ${gPctGirl}% (${g.girl})</span>
+            </div>
+            <div class="group-track">
+              <div style="background:var(--primary-boy); width:${gPctBoy}%;"></div>
+              <div style="background:var(--primary-girl); width:${gPctGirl}%;"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    async function handleBolaoSubmit(e) {
+      e.preventDefault();
+      const nome = document.getElementById('bet-name').value.trim();
+      const telefone = document.getElementById('bet-phone').value.trim();
+      const grupo = document.getElementById('bet-group').value;
+      const palpite = document.querySelector('input[name="gender"]:checked').value;
+      const pagador_pix = document.getElementById('bet-pagador').value.trim() || nome;
+      const pago = document.getElementById('bet-paid').checked ? "Sim" : "Não";
+
+      const btn = document.getElementById('btn-submit-bet');
+      btn.innerText = 'Gravando palpite...';
+      btn.disabled = true;
+
+      const payload = {
+        tipo: "bolao",
+        nome,
+        telefone,
+        grupo,
+        palpite,
+        valor: 10,
+        pagador_pix,
+        pago
+      };
+
+      try {
+        await fetch(API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        alert('🎉 Palpite confirmado com sucesso! Boa sorte!');
+        betsData.push(payload);
+        updateBolaoDashboard();
+        document.getElementById('bolao-form').reset();
+      } catch (err) {
+        alert('Ocorreu um erro ao registrar seu palpite.');
+      } finally {
+        btn.innerText = 'Confirmar Palpite';
+        btn.disabled = false;
+      }
+    }
+
+    function renderPresentsFilters() {
+      const categories = ['Todos', ...new Set(presentsData.map(i => i.Categoria).filter(Boolean))];
+      const container = document.getElementById('filters-container');
+      container.innerHTML = categories.map(cat => 
+        `<button class="filter-btn ${cat === 'Todos' ? 'active' : ''}" onclick="filterPresents('${cat}', this)">${cat}</button>`
+      ).join('');
+    }
+
+    function filterPresents(category, btn) {
+      if (btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      if (category === 'Todos') {
+        renderPresents(presentsData);
+      } else {
+        renderPresents(presentsData.filter(i => i.Categoria === category));
+      }
+    }
+
+    function renderPresents(items) {
+      const grid = document.getElementById('presents-grid');
+      grid.innerHTML = items.map(item => {
+        const isReserved = (item.Status || '').toLowerCase() === 'reservado';
+        return `
+          <div class="card ${isReserved ? 'reserved' : ''}">
+            <img src="${item.Imagem || 'https://via.placeholder.com/300x200?text=Presente'}" alt="${item.Item}">
+            <div class="card-body">
+              <span class="badge">${item.Categoria || 'Geral'}</span>
+              <h3 class="card-title">${item.Item}</h3>
+              <p class="card-desc">${item.Descricao || ''}</p>
+              ${isReserved 
+                ? `<button class="btn btn-disabled" disabled>✓ Reservado (${item.Reservado_Por || 'Alguém'})</button>`
+                : `<button class="btn btn-primary" onclick="openPresentModal('${item.ID}')">Quero Presentear</button>`
+              }
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openPresentModal(id) {
+      selectedPresent = presentsData.find(i => String(i.ID) === String(id));
+      if (!selectedPresent) return;
+
+      document.getElementById('modal-step-form').style.display = 'block';
+      document.getElementById('modal-step-success').style.display = 'none';
+
+      document.getElementById('modal-item-name').innerText = `Presente: ${selectedPresent.Item}`;
+      document.getElementById('guest-name').value = '';
+      document.getElementById('reserve-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('reserve-modal').style.display = 'none';
+      selectedPresent = null;
+    }
+
+    async function submitPresentReservation() {
+      const name = document.getElementById('guest-name').value.trim();
+      if (!name) return alert('Por favor, informe seu nome para reservar.');
+
+      const btn = document.getElementById('btn-confirm-present');
+      btn.innerText = 'Confirmando reserva...';
+      btn.disabled = true;
+
+      try {
+        await fetch(API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tipo: "presente", id: selectedPresent.ID, nome })
+        });
+
+        selectedPresent.Status = "Reservado";
+        selectedPresent.Reservado_Por = name;
+        renderPresents(presentsData);
+
+        const affiliateBtn = document.getElementById('btn-open-affiliate');
+        const linkSugestao = selectedPresent.Link || selectedPresent.Link_Sugestao || '';
+        
+        if (linkSugestao && linkSugestao.trim() !== '') {
+          affiliateBtn.href = linkSugestao;
+          affiliateBtn.style.display = 'inline-block';
+          window.open(linkSugestao, '_blank');
+        } else {
+          affiliateBtn.style.display = 'none';
+        }
+
+        document.getElementById('modal-step-form').style.display = 'none';
+        document.getElementById('modal-step-success').style.display = 'block';
+
+      } catch (e) {
+        alert('Erro ao registrar reserva. Tente novamente.');
+      } finally {
+        btn.innerText = 'Confirmar e Ver Link';
+        btn.disabled = false;
+      }
+    }
+
+    window.onload = loadData;
+  </script>
+</body>
+</html>
