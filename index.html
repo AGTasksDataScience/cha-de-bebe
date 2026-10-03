@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chá de Bebê - Presentes & Palpites</title>
+  <title>Chá de Bebê - Confirmação, Presentes & Palpites</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --primary-girl: #f48fb1;
-      --primary-boy: #64b5f6;
+      --primary-girl: #6E8B63;
+      --primary-boy: #7D5396;
       --primary: #ec407a;
       --accent: #ab47bc;
       --bg: #fffdfa;
@@ -45,7 +45,7 @@
     }
 
     header {
-      background: linear-gradient(135deg, #fce4ec 0%, #e3f2fd 100%);
+      background: linear-gradient(135deg, #bb9dcc 0%, #b4cfa9 100%);
       padding: 35px 20px 20px;
       text-align: center;
       border-bottom: 1px solid var(--border);
@@ -58,27 +58,28 @@
     }
 
     header p {
-      color: #546e7a;
+      color: #050505;
       font-size: 1.05rem;
-      max-width: 600px;
+      max-width: 620px;
       margin: 0 auto 20px;
     }
 
     .nav-tabs {
       display: flex;
       justify-content: center;
-      gap: 12px;
+      gap: 10px;
       margin-top: 15px;
+      flex-wrap: wrap;
     }
 
     .tab-btn {
       background: #ffffff;
       border: 2px solid transparent;
-      padding: 10px 24px;
+      padding: 10px 22px;
       border-radius: 25px;
       font-family: inherit;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       color: #546e7a;
       cursor: pointer;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
@@ -109,6 +110,83 @@
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---------------- ABA CONFIRMAÇÃO DE PRESENÇA ---------------- */
+    .welcome-card {
+      background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+      border-radius: 18px;
+      padding: 30px 25px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
+      max-width: 700px;
+      margin: 0 auto 25px;
+      text-align: center;
+    }
+
+    .welcome-card h2 {
+      font-size: 1.6rem;
+      color: #37474f;
+      margin-bottom: 12px;
+    }
+
+    .welcome-card p {
+      color: #546e7a;
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+
+    .rsvp-form-card {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 30px 25px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .presence-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 8px 0 16px;
+    }
+
+    .presence-option {
+      position: relative;
+    }
+
+    .presence-option input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .presence-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px;
+      border: 2px solid #cfd8dc;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 0.95rem;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .presence-option input:checked + label.yes {
+      border-color: #43a047;
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+
+    .presence-option input:checked + label.no {
+      border-color: #e57373;
+      background-color: #ffebee;
+      color: #c62828;
     }
 
     /* ---------------- LISTA DE PRESENTES ---------------- */
@@ -216,6 +294,15 @@
 
     .btn-primary:hover {
       background: #d81b60;
+    }
+
+    .btn-success {
+      background: #43a047;
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #388e3c;
     }
 
     .btn-affiliate {
@@ -439,7 +526,7 @@
       margin: 8px 0;
     }
 
-    /* Formulário */
+    /* Formulários Gerais */
     .form-card {
       background: #fff;
       padding: 25px;
@@ -451,7 +538,7 @@
     }
 
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
 
     .form-group label {
@@ -461,7 +548,7 @@
       margin-bottom: 6px;
     }
 
-    .form-group input, .form-group select {
+    .form-group input, .form-group select, .form-group textarea {
       width: 100%;
       padding: 11px 14px;
       border: 1px solid #cfd8dc;
@@ -501,14 +588,14 @@
 
     .gender-radio input:checked + label.boy {
       border-color: var(--primary-boy);
-      background-color: #e3f2fd;
-      color: #1976d2;
+      background-color: #ede7f6;
+      color: var(--primary-boy);
     }
 
     .gender-radio input:checked + label.girl {
       border-color: var(--primary-girl);
-      background-color: #fce4ec;
-      color: #c2185b;
+      background-color: #edf5ea;
+      color: var(--primary-girl);
     }
 
     .pix-box {
@@ -569,15 +656,99 @@
 
   <header>
     <h1>🍼 Chá de Bebê da Família</h1>
-    <p>Participe da lista de presentes e divirta-se na nossa Brincadeira do Palpite!</p>
+    <p>Celebre esse momento especial conosco! Confirme sua presença, escolha um presente carinhoso e divirta-se na brincadeira dos palpites.</p>
     <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-bolao', this)">🎲 Brincadeira do Palpite</button>
+      <button class="tab-btn active" onclick="switchTab('tab-presenca', this)">💌 Confirmar Presença</button>
       <button class="tab-btn" onclick="switchTab('tab-presentes', this)">🎁 Lista de Presentes</button>
+      <button class="tab-btn" onclick="switchTab('tab-bolao', this)">🎲 Brincadeira do Palpite</button>
     </div>
   </header>
 
-  <!-- ================= ABA PALPITES ================= -->
-  <main class="container tab-content active" id="tab-bolao">
+  <!-- ================= ABA 1: CONFIRMAR PRESENÇA (INICIAL) ================= -->
+  <main class="container tab-content active" id="tab-presenca">
+    
+    <div class="welcome-card">
+      <h2>✨ Sejam muito bem-vindos!</h2>
+      <p>
+        Estamos preparando cada detalhe com muito amor e carinho para compartilhar essa alegria com quem amamos.
+      </p>
+      <p>
+        A sua presença tornará o nosso dia ainda mais inesquecível! Por favor, preencha o formulário abaixo até a data informada para que possamos organizar tudo com muito carinho.
+      </p>
+    </div>
+
+    <div class="rsvp-form-card">
+      <div class="section-title" style="justify-content: center; margin-bottom: 20px;">💌 Confirmação de Presença (RSVP)</div>
+
+      <form id="presence-form" onsubmit="handlePresenceSubmit(event)">
+        <div class="form-group">
+          <label>Seu Nome Completo:</label>
+          <input type="text" id="rsvp-name" placeholder="Ex: Ana Paula da Silva" required />
+        </div>
+
+        <div class="form-group">
+          <label>WhatsApp / Telefone de Contato:</label>
+          <input type="tel" id="rsvp-phone" placeholder="(31) 99999-9999" required />
+          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">🔒 Usado apenas pelos organizadores para recados do evento.</span>
+        </div>
+
+        <div class="form-group">
+          <label>Você poderá comparecer ao Chá?</label>
+          <div class="presence-options">
+            <div class="presence-option">
+              <input type="radio" id="rsvp-yes" name="rsvp_status" value="Sim" onchange="toggleAcompanhantes(true)" required checked />
+              <label for="rsvp-yes" class="yes">🎉 Sim, com certeza!</label>
+            </div>
+            <div class="presence-option">
+              <input type="radio" id="rsvp-no" name="rsvp_status" value="Não" onchange="toggleAcompanhantes(false)" required />
+              <label for="rsvp-no" class="no">😢 Infelizmente não</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="box-acompanhantes">
+          <div class="form-group">
+            <label>Quantos acompanhantes vão com você?</label>
+            <select id="rsvp-guests-count">
+              <option value="0">Vou sozinho(a) (0 acompanhantes)</option>
+              <option value="1">+ 1 acompanhante</option>
+              <option value="2">+ 2 acompanhantes</option>
+              <option value="3">+ 3 acompanhantes</option>
+              <option value="4">+ 4 acompanhantes</option>
+              <option value="5+">5 ou mais acompanhantes</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Nome(s) do(s) acompanhante(s) <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
+            <input type="text" id="rsvp-guests-names" placeholder="Ex: Carlos (esposo) e Lucas (filho)" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Mensagem ou Recadinho para a Família <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
+          <textarea id="rsvp-message" rows="3" placeholder="Deixe uma mensagem cheia de carinho para o bebê e os pais..." style="resize: vertical;"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-success" id="btn-submit-presence">Confirmar Minha Resposta</button>
+      </form>
+    </div>
+
+  </main>
+
+
+  <!-- ================= ABA 2: LISTA DE PRESENTES ================= -->
+  <main class="container tab-content" id="tab-presentes">
+    <div class="filters" id="filters-container">
+      <button class="filter-btn active" onclick="filterPresents('Todos')">Todos</button>
+    </div>
+
+    <div class="grid" id="presents-grid"></div>
+  </main>
+
+
+  <!-- ================= ABA 3: PALPITES ================= -->
+  <main class="container tab-content" id="tab-bolao">
     
     <div class="bolao-banner">
       <div>
@@ -627,8 +798,8 @@
     <div class="bar-container">
       <div class="section-title">📊 Termômetro Geral dos Palpites</div>
       <div class="bar-legend">
-        <span style="color: #1976d2;">👦 Menino: <span id="pct-boy">50%</span> (<span id="count-boy">0</span> votos)</span>
-        <span style="color: #c2185b;">👧 Menina: <span id="pct-girl">50%</span> (<span id="count-girl">0</span> votos)</span>
+        <span style="color: var(--primary-boy);">👦 Menino: <span id="pct-boy">50%</span> (<span id="count-boy">0</span> votos)</span>
+        <span style="color: var(--primary-girl);">👧 Menina: <span id="pct-girl">50%</span> (<span id="count-girl">0</span> votos)</span>
       </div>
       <div class="progress-track">
         <div class="bar-boy" id="bar-boy" style="width: 50%;">Menino</div>
@@ -711,16 +882,6 @@
   </main>
 
 
-  <!-- ================= ABA LISTA DE PRESENTES ================= -->
-  <main class="container tab-content" id="tab-presentes">
-    <div class="filters" id="filters-container">
-      <button class="filter-btn active" onclick="filterPresents('Todos')">Todos</button>
-    </div>
-
-    <div class="grid" id="presents-grid"></div>
-  </main>
-
-
   <!-- Modal de Confirmação e Exibição do Link de Afiliado -->
   <div class="modal-overlay" id="reserve-modal">
     <div class="modal">
@@ -773,6 +934,13 @@
       btn.classList.add('active');
     }
 
+    function toggleAcompanhantes(canAttend) {
+      const box = document.getElementById('box-acompanhantes');
+      if (box) {
+        box.style.display = canAttend ? 'block' : 'none';
+      }
+    }
+
     async function loadData() {
       try {
         const res = await fetch(API_URL);
@@ -802,6 +970,48 @@
       renderPresents(presentsData);
       renderPresentsFilters();
       updateBolaoDashboard();
+    }
+
+    async function handlePresenceSubmit(e) {
+      e.preventDefault();
+      const nome = document.getElementById('rsvp-name').value.trim();
+      const telefone = document.getElementById('rsvp-phone').value.trim();
+      const comparecera = document.querySelector('input[name="rsvp_status"]:checked').value;
+      const qtdAcompanhantes = comparecera === "Sim" ? document.getElementById('rsvp-guests-count').value : "0";
+      const nomesAcompanhantes = comparecera === "Sim" ? document.getElementById('rsvp-guests-names').value.trim() : "";
+      const mensagem = document.getElementById('rsvp-message').value.trim();
+
+      const btn = document.getElementById('btn-submit-presence');
+      btn.innerText = 'Enviando confirmação...';
+      btn.disabled = true;
+
+      const payload = {
+        tipo: "presenca",
+        nome,
+        telefone,
+        comparecera,
+        qtd_acompanhantes: qtdAcompanhantes,
+        nomes_acompanhantes: nomesAcompanhantes,
+        mensagem
+      };
+
+      try {
+        await fetch(API_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        alert('💖 Resposta registrada com sucesso! Muito obrigado pelo carinho.');
+        document.getElementById('presence-form').reset();
+        toggleAcompanhantes(true);
+      } catch (err) {
+        alert('Ocorreu um erro ao enviar sua confirmação. Tente novamente.');
+      } finally {
+        btn.innerText = 'Confirmar Minha Resposta';
+        btn.disabled = false;
+      }
     }
 
     function updateBolaoDashboard() {
@@ -873,8 +1083,8 @@
           <div class="group-card">
             <h4>${grp}</h4>
             <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
-              <span style="color:#1976d2">👦 ${gPctBoy}% (${g.boy})</span>
-              <span style="color:#c2185b">👧 ${gPctGirl}% (${g.girl})</span>
+              <span style="color:var(--primary-boy)">👦 ${gPctBoy}% (${g.boy})</span>
+              <span style="color:var(--primary-girl)">👧 ${gPctGirl}% (${g.girl})</span>
             </div>
             <div class="group-track">
               <div style="background:var(--primary-boy); width:${gPctBoy}%;"></div>
@@ -1004,7 +1214,6 @@
       btn.disabled = true;
 
       try {
-        // Envia a reserva para a planilha Google Sheets
         await fetch(API_URL, {
           method: 'POST',
           mode: 'no-cors',
@@ -1016,12 +1225,10 @@
           })
         });
 
-        // 1. Atualiza o status localmente na interface
         selectedPresent.Status = "Reservado";
         selectedPresent.Reservado_Por = name;
         renderPresents(presentsData);
 
-        // 2. Localiza o link de compra (Amazon / Shopee)
         const affiliateBtn = document.getElementById('btn-open-affiliate');
         const linkSugestao = (selectedPresent.Link || selectedPresent.Link_Sugestao || '').trim();
 
@@ -1032,7 +1239,6 @@
           affiliateBtn.style.display = 'none';
         }
 
-        // 3. Transiciona a visualização do modal para a tela de sucesso
         document.getElementById('modal-step-form').style.display = 'none';
         document.getElementById('modal-step-success').style.display = 'block';
 
