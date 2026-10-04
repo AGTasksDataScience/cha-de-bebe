@@ -1,1085 +1,1507 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chá de Bebê - Confirmação, Presentes & Palpites</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-girl: #6E8B63;
-      --primary-boy: #7D5396;
-      --primary: #ec407a;
-      --accent: #ab47bc;
-      --bg: #fffdfa;
-      --card-bg: #ffffff;
-      --text: #37474f;
-      --text-muted: #78909c;
-      --border: #eceff1;
-      --success: #43a047;
-      --warning: #ffa726;
-      --shield-bg: #f0f7f4;
-      --shield-border: #b2dfdb;
-      --shield-text: #004d40;
-      --awareness-bg: #fff8e1;
-      --awareness-border: #ffe082;
-      --awareness-text: #5d4037;
-      --affiliate-btn: #ff9900;
-      --affiliate-hover: #e68a00;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Quicksand', sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      line-height: 1.5;
-      padding-bottom: 70px;
-    }
-
-    header {
-      background: linear-gradient(135deg, #bb9dcc 0%, #b4cfa9 100%);
-      padding: 35px 20px 20px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-
-    header h1 {
-      font-size: 2.2rem;
-      color: #37474f;
-      margin-bottom: 6px;
-    }
-
-    header p {
-      color: #050505;
-      font-size: 1.05rem;
-      max-width: 620px;
-      margin: 0 auto 20px;
-    }
-
-    .nav-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-top: 15px;
-      flex-wrap: wrap;
-    }
-
-    .tab-btn {
-      background: #ffffff;
-      border: 2px solid transparent;
-      padding: 10px 22px;
-      border-radius: 25px;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.95rem;
-      color: #546e7a;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-      transition: all 0.25s ease;
-    }
-
-    .tab-btn.active {
-      background: #37474f;
-      color: #ffffff;
-      box-shadow: 0 4px 14px rgba(55,71,79,0.25);
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 25px 20px;
-    }
-
-    .tab-content {
-      display: none;
-    }
-
-    .tab-content.active {
-      display: block;
-      animation: fadeIn 0.3s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ---------------- ABA CONFIRMAÇÃO DE PRESENÇA ---------------- */
-    .welcome-card {
-      background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
-      border-radius: 18px;
-      padding: 30px 25px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.03);
-      max-width: 700px;
-      margin: 0 auto 25px;
-      text-align: center;
-    }
-
-    .welcome-card h2 {
-      font-size: 1.6rem;
-      color: #37474f;
-      margin-bottom: 12px;
-    }
-
-    .welcome-card p {
-      color: #546e7a;
-      font-size: 1rem;
-      line-height: 1.6;
-      margin-bottom: 8px;
-    }
-
-    .rsvp-form-card {
-      background: #ffffff;
-      border-radius: 18px;
-      padding: 30px 25px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .presence-options {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 8px 0 16px;
-    }
-
-    .presence-option {
-      position: relative;
-    }
-
-    .presence-option input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    .presence-option label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 13px;
-      border: 2px solid #cfd8dc;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: all 0.2s;
-      text-align: center;
-    }
-
-    .presence-option input:checked + label.yes {
-      border-color: #43a047;
-      background-color: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .presence-option input:checked + label.no {
-      border-color: #e57373;
-      background-color: #ffebee;
-      color: #c62828;
-    }
-
-    /* ---------------- LISTA DE PRESENTES ---------------- */
-    .filters {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 25px;
-    }
-
-    .filter-btn {
-      background: #fff;
-      border: 1px solid #cfd8dc;
-      padding: 7px 16px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-family: inherit;
-      font-weight: 600;
-      color: var(--text);
-      transition: 0.2s;
-    }
-
-    .filter-btn.active, .filter-btn:hover {
-      background-color: #37474f;
-      color: #fff;
-      border-color: #37474f;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 22px;
-    }
-
-    .card {
-      background: var(--card-bg);
-      border-radius: 16px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      background: #f5f5f5;
-    }
-
-    .card-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      flex-grow: 1;
-    }
-
-    .badge {
-      display: inline-block;
-      align-self: flex-start;
-      font-size: 0.75rem;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 12px;
-      background: #eceff1;
-      color: #455a64;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
-
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
-    .card-desc {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      margin-bottom: 15px;
-      flex-grow: 1;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 11px 15px;
-      border: none;
-      border-radius: 10px;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover {
-      background: #d81b60;
-    }
-
-    .btn-success {
-      background: #43a047;
-      color: #fff;
-    }
-
-    .btn-success:hover {
-      background: #388e3c;
-    }
-
-    .btn-affiliate {
-      background: var(--affiliate-btn);
-      color: #fff;
-      margin-top: 10px;
-      box-shadow: 0 4px 10px rgba(255, 153, 0, 0.3);
-    }
-
-    .btn-affiliate:hover {
-      background: var(--affiliate-hover);
-    }
-
-    .btn-disabled {
-      background: #cfd8dc;
-      color: #78909c;
-      cursor: not-allowed;
-    }
-
-    /* ---------------- BRINCADEIRA DO PALPITE ---------------- */
-    .bolao-banner {
-      background: linear-gradient(135deg, #fff3e0 0%, #ffe082 100%);
-      padding: 20px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-      border: 1px solid #ffe082;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-    }
-
-    .bolao-banner h2 {
-      font-size: 1.4rem;
-      color: #e65100;
-    }
-
-    .bolao-banner p {
-      font-size: 0.95rem;
-      color: #5d4037;
-    }
-
-    .awareness-banner {
-      background-color: var(--awareness-bg);
-      border: 1px solid var(--awareness-border);
-      border-radius: 14px;
-      padding: 15px 18px;
-      margin-bottom: 20px;
-      display: flex;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .awareness-banner .icon {
-      font-size: 1.6rem;
-    }
-
-    .awareness-banner p {
-      font-size: 0.88rem;
-      color: var(--awareness-text);
-      line-height: 1.4;
-    }
-
-    .security-banner {
-      background-color: var(--shield-bg);
-      border: 1px solid var(--shield-border);
-      border-radius: 14px;
-      padding: 16px 20px;
-      margin-bottom: 25px;
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-
-    .security-icon {
-      font-size: 1.8rem;
-      line-height: 1;
-    }
-
-    .security-content h4 {
-      font-size: 1rem;
-      color: var(--shield-text);
-      margin-bottom: 4px;
-      font-weight: 700;
-    }
-
-    .security-content p {
-      font-size: 0.88rem;
-      color: #00695c;
-      line-height: 1.4;
-    }
-
-    .security-content ul {
-      margin-top: 6px;
-      padding-left: 18px;
-      font-size: 0.85rem;
-      color: #00695c;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .stat-card {
-      background: #fff;
-      padding: 20px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
-      text-align: center;
-    }
-
-    .stat-card .num {
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-top: 5px;
-      color: #263238;
-    }
-
-    .stat-card .label {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      font-weight: 600;
-      text-transform: uppercase;
-    }
-
-    .section-title {
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .bar-container {
-      background: #fff;
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      margin-bottom: 25px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-    }
-
-    .progress-track {
-      height: 38px;
-      background: #eceff1;
-      border-radius: 19px;
-      overflow: hidden;
-      display: flex;
-      margin: 12px 0;
-      border: 2px solid #fff;
-      box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
-    }
-
-    .bar-boy {
-      background: var(--primary-boy);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: width 0.6s ease;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .bar-girl {
-      background: var(--primary-girl);
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      font-weight: 700;
-      font-size: 0.95rem;
-      transition: width 0.6s ease;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-
-    .bar-legend {
-      display: flex;
-      justify-content: space-between;
-      font-weight: 700;
-      font-size: 0.95rem;
-    }
-
-    .groups-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 16px;
-      margin-bottom: 30px;
-    }
-
-    .group-card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-    }
-
-    .group-card h4 {
-      font-size: 1rem;
-      margin-bottom: 10px;
-      color: #37474f;
-    }
-
-    .group-track {
-      height: 20px;
-      background: #eceff1;
-      border-radius: 10px;
-      overflow: hidden;
-      display: flex;
-      margin: 8px 0;
-    }
-
-    /* Formulários Gerais */
-    .form-card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
-      max-width: 650px;
-      margin: 0 auto;
-    }
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-
-    .form-group label {
-      display: block;
-      font-weight: 700;
-      font-size: 0.9rem;
-      margin-bottom: 6px;
-    }
-
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1px solid #cfd8dc;
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 0.95rem;
-    }
-
-    .gender-selector {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 6px;
-    }
-
-    .gender-radio {
-      position: relative;
-    }
-
-    .gender-radio input {
-      position: absolute;
-      opacity: 0;
-    }
-
-    .gender-radio label {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 14px;
-      border: 2px solid #cfd8dc;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 1.05rem;
-      transition: all 0.2s;
-    }
-
-    .gender-radio input:checked + label.boy {
-      border-color: var(--primary-boy);
-      background-color: #ede7f6;
-      color: var(--primary-boy);
-    }
-
-    .gender-radio input:checked + label.girl {
-      border-color: var(--primary-girl);
-      background-color: #edf5ea;
-      color: var(--primary-girl);
-    }
-
-    .pix-box {
-      background: #f1f8e9;
-      border: 1px dashed #8bc34a;
-      padding: 15px;
-      border-radius: 12px;
-      margin: 15px 0;
-      text-align: center;
-    }
-
-    .pix-key {
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #33691e;
-      user-select: all;
-      word-break: break-all;
-    }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      z-index: 200;
-    }
-
-    .modal {
-      background: #fff;
-      padding: 26px;
-      border-radius: 18px;
-      max-width: 440px;
-      width: 100%;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-      animation: popIn 0.25s ease;
-    }
-
-    @keyframes popIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    .modal-step-success {
-      text-align: center;
-    }
-
-    .modal-step-success .icon {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>🍼 Chá de Bebê da Família</h1>
-    <p>Celebre esse momento especial conosco! Confirme sua presença, escolha um presente carinhoso e divirta-se na brincadeira dos palpites.</p>
-    <div class="nav-tabs">
-      <button class="tab-btn active" onclick="switchTab('tab-presenca', this)">💌 Confirmar Presença</button>
-      <button class="tab-btn" onclick="switchTab('tab-presentes', this)">🎁 Lista de Presentes</button>
-      <button class="tab-btn" onclick="switchTab('tab-bolao', this)">🎲 Brincadeira do Palpite</button>
-    </div>
-  </header>
-
-  <!-- ================= ABA 1: CONFIRMAR PRESENÇA (INICIAL) ================= -->
-  <main class="container tab-content active" id="tab-presenca">
-    
-    <div class="welcome-card">
-      <h2>✨ Sejam muito bem-vindos!</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chá de Bebê - Confirmação, Presentes & Palpites</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary-girl: #6e8b63;
+        --primary-boy: #7d5396;
+        --primary: #ec407a;
+        --accent: #ab47bc;
+        --bg: #fffdfa;
+        --card-bg: #ffffff;
+        --text: #37474f;
+        --text-muted: #78909c;
+        --border: #eceff1;
+        --success: #43a047;
+        --warning: #ffa726;
+        --shield-bg: #caffb5;
+        --shield-border: #b2dfdb;
+        --shield-text: #3b1e54;
+        --awareness-bg: #caffb5;
+        --awareness-border: #ffe082;
+        --awareness-text: #37474f;
+        --affiliate-btn: #ff9900;
+        --affiliate-hover: #e68a00;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Quicksand", sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.5;
+        padding-bottom: 70px;
+      }
+
+      header {
+        background: linear-gradient(135deg, #6e8b63 0%, #b4cfa9 100%);
+        padding: 35px 20px 20px;
+        text-align: center;
+        border-bottom: 1px solid var(--border);
+      }
+
+      header h1 {
+        font-size: 2.2rem;
+        color: #37474f;
+        margin-bottom: 6px;
+      }
+
+      header p {
+        color: #546e7a;
+        font-size: 1.05rem;
+        max-width: 620px;
+        margin: 0 auto 20px;
+      }
+
+      .nav-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 15px;
+        flex-wrap: wrap;
+      }
+
+      .tab-btn {
+        background: #ffffff;
+        border: 2px solid transparent;
+        padding: 10px 22px;
+        border-radius: 25px;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 0.95rem;
+        color: #546e7a;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        transition: all 0.25s ease;
+      }
+
+      .tab-btn.active {
+        background: #37474f;
+        color: #ffffff;
+        box-shadow: 0 4px 14px rgba(55, 71, 79, 0.25);
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 25px 20px;
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ---------------- ABA CONFIRMAÇÃO DE PRESENÇA ---------------- */
+      .welcome-card {
+        background: linear-gradient(135deg, #ffffff 0%, #fdfbf7 100%);
+        border-radius: 18px;
+        padding: 30px 25px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        max-width: 700px;
+        margin: 0 auto 25px;
+        text-align: center;
+      }
+
+      .welcome-card h2 {
+        font-size: 1.6rem;
+        color: #37474f;
+        margin-bottom: 12px;
+      }
+
+      .welcome-card p {
+        color: #546e7a;
+        font-size: 1rem;
+        line-height: 1.6;
+        margin-bottom: 8px;
+      }
+
+      .rsvp-form-card {
+        background: #ffffff;
+        border-radius: 18px;
+        padding: 30px 25px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        max-width: 700px;
+        margin: 0 auto;
+      }
+
+      .presence-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin: 8px 0 16px;
+      }
+
+      .presence-option {
+        position: relative;
+      }
+
+      .presence-option input {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .presence-option label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 13px;
+        border: 2px solid #cfd8dc;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+        text-align: center;
+      }
+
+      .presence-option input:checked + label.yes {
+        border-color: #43a047;
+        background-color: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .presence-option input:checked + label.no {
+        border-color: #e57373;
+        background-color: #ffebee;
+        color: #c62828;
+      }
+
+      /* ---------------- LISTA DE PRESENTES ---------------- */
+      .filters {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+      }
+
+      .filter-btn {
+        background: #fff;
+        border: 1px solid #cfd8dc;
+        padding: 7px 16px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        color: var(--text);
+        transition: 0.2s;
+      }
+
+      .filter-btn.active,
+      .filter-btn:hover {
+        background-color: #37474f;
+        color: #fff;
+        border-color: #37474f;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 22px;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        background: #f5f5f5;
+      }
+
+      .card-body {
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      .badge {
+        display: inline-block;
+        align-self: flex-start;
+        font-size: 0.75rem;
+        font-weight: 700;
+        padding: 3px 10px;
+        border-radius: 12px;
+        background: #eceff1;
+        color: #455a64;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+      }
+
+      .card-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      .card-desc {
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        margin-bottom: 15px;
+        flex-grow: 1;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 11px 15px;
+        border: none;
+        border-radius: 10px;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .btn-primary:hover {
+        background: #d81b60;
+      }
+
+      .btn-success {
+        background: #43a047;
+        color: #fff;
+      }
+
+      .btn-success:hover {
+        background: #388e3c;
+      }
+
+      .btn-affiliate {
+        background: var(--affiliate-btn);
+        color: #fff;
+        margin-top: 10px;
+        box-shadow: 0 4px 10px rgba(255, 153, 0, 0.3);
+      }
+
+      .btn-affiliate:hover {
+        background: var(--affiliate-hover);
+      }
+
+      .btn-disabled {
+        background: #cfd8dc;
+        color: #78909c;
+        cursor: not-allowed;
+      }
+
+      .price-tag {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #2e7d32;
+        background: #e8f5e9;
+        padding: 4px 10px;
+        border-radius: 8px;
+        display: inline-block;
+        margin-bottom: 12px;
+        align-self: flex-start;
+      }
+
+      .filters-section {
+        background: #fff8e1;
+        padding: 16px 20px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      }
+
+      .filter-group-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: var(--text-muted);
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        display: block;
+        text-align: center;
+      }
+
+      /* ---------------- BRINCADEIRA DO PALPITE ---------------- */
+      .bolao-banner {
+        background: linear-gradient(135deg, #b4cfa9 0%, #b4cfa9 100%);
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ffe082;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .bolao-banner h2 {
+        font-size: 1.4rem;
+        color: #37474f;
+      }
+
+      .bolao-banner h3 {
+        font-size: 1.2rem;
+        color: #37474f;
+      }
+
+      .bolao-banner p {
+        font-size: 0.95rem;
+        color: #37474f;
+      }
+
+      .regras-banner {
+        background: linear-gradient(135deg, #c482eb 0%, #c482eb 100%);
+        padding: 20px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid #ffe082;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .regras-banner h2 {
+        font-size: 1.4rem;
+        color: #3b1e54;
+      }
+
+      .regras-banner h3 {
+        font-size: 1.2rem;
+        color: #3b1e54;
+      }
+
+      .regras-banner p {
+        font-size: 0.95rem;
+        color: #3b1e54;
+      }
+
+      .regras-banner li {
+        font-size: 0.95rem;
+        color: #3b1e54;
+      }
+
+      .awareness-banner {
+        background: linear-gradient(135deg, #b4cfa9 0%, #b4cfa9 100%);
+        border: 1px solid var(--awareness-border);
+        border-radius: 14px;
+        padding: 15px 18px;
+        margin-bottom: 20px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .awareness-banner .icon {
+        font-size: 1.6rem;
+      }
+
+      .awareness-banner p {
+        font-size: 0.88rem;
+        color: var(--awareness-text);
+        line-height: 1.4;
+      }
+
+      .security-banner {
+        background: linear-gradient(135deg, #c482eb 0%, #c482eb 100%);
+        border: 1px solid var(--shield-border);
+        border-radius: 14px;
+        padding: 16px 20px;
+        margin-bottom: 25px;
+        display: flex;
+        gap: 14px;
+        align-items: flex-start;
+      }
+
+      .security-icon {
+        font-size: 1.8rem;
+        line-height: 1;
+      }
+
+      .security-content h4 {
+        font-size: 1rem;
+        color: var(--shield-text);
+        margin-bottom: 4px;
+        font-weight: 700;
+      }
+
+      .security-content p {
+        font-size: 0.88rem;
+        color: #3b1e54;
+        line-height: 1.4;
+      }
+
+      .security-content ul {
+        margin-top: 6px;
+        padding-left: 18px;
+        font-size: 0.85rem;
+        color: #3b1e54;
+      }
+
+      /* Card centralizado de Palpites Confirmados */
+      .stats-row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 30px;
+      }
+
+      .stat-card {
+        background: #fff;
+        padding: 20px 40px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        text-align: center;
+        min-width: 240px;
+      }
+
+      .stat-card .num {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-top: 5px;
+        color: #0288d1;
+      }
+
+      .stat-card .label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .bar-container {
+        background: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        margin-bottom: 25px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+      }
+
+      .progress-track {
+        height: 38px;
+        background: #eceff1;
+        border-radius: 19px;
+        overflow: hidden;
+        display: flex;
+        margin: 12px 0;
+        border: 2px solid #fff;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+      }
+
+      .bar-boy {
+        background: var(--primary-boy);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: width 0.6s ease;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .bar-girl {
+        background: var(--primary-girl);
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: 700;
+        font-size: 0.95rem;
+        transition: width 0.6s ease;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+
+      .bar-legend {
+        display: flex;
+        justify-content: space-between;
+        font-weight: 700;
+        font-size: 0.95rem;
+      }
+
+      .groups-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+        margin-bottom: 30px;
+      }
+
+      .group-card {
+        background: #fff;
+        padding: 16px;
+        border-radius: 14px;
+        border: 1px solid var(--border);
+      }
+
+      .group-card h4 {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        color: #37474f;
+      }
+
+      .group-track {
+        height: 20px;
+        background: #eceff1;
+        border-radius: 10px;
+        overflow: hidden;
+        display: flex;
+        margin: 8px 0;
+      }
+
+      /* Formulários Gerais */
+      .form-card {
+        background: #fff;
+        padding: 25px;
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+        max-width: 650px;
+        margin: 0 auto;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .form-group label {
+        display: block;
+        font-weight: 700;
+        font-size: 0.9rem;
+        margin-bottom: 6px;
+      }
+
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        width: 100%;
+        padding: 11px 14px;
+        border: 1px solid #cfd8dc;
+        border-radius: 10px;
+        font-family: inherit;
+        font-size: 0.95rem;
+      }
+
+      .gender-selector {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 6px;
+      }
+
+      .gender-radio {
+        position: relative;
+      }
+
+      .gender-radio input {
+        position: absolute;
+        opacity: 0;
+      }
+
+      .gender-radio label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 14px;
+        border: 2px solid #cfd8dc;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 1.05rem;
+        transition: all 0.2s;
+      }
+
+      .gender-radio input:checked + label.boy {
+        border-color: var(--primary-boy);
+        background-color: #ede7f6;
+        color: var(--primary-boy);
+      }
+
+      .gender-radio input:checked + label.girl {
+        border-color: var(--primary-girl);
+        background-color: #edf5ea;
+        color: var(--primary-girl);
+      }
+
+      .pix-box {
+        background: #f1f8e9;
+        border: 1px dashed #8bc34a;
+        padding: 15px;
+        border-radius: 12px;
+        margin: 15px 0;
+        text-align: center;
+      }
+
+      .pix-key {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #33691e;
+        user-select: all;
+        word-break: break-all;
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        z-index: 200;
+      }
+
+      .modal {
+        background: #fff;
+        padding: 26px;
+        border-radius: 18px;
+        max-width: 440px;
+        width: 100%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        animation: popIn 0.25s ease;
+      }
+
+      @keyframes popIn {
+        from {
+          transform: scale(0.95);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .modal-step-success {
+        text-align: center;
+      }
+
+      .modal-step-success .icon {
+        font-size: 3rem;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>🍼 Chá de Revelação Andreia e Ariel</h1>
       <p>
-        Estamos preparando cada detalhe com muito amor e carinho para compartilhar essa alegria com quem amamos.
+        Celebre esse momento especial conosco e confirme sua presença!
+        Para quem quiser participar, teremos a brincadeira do palpite e também uma lista de presentes,
+        caso queira nos presentear.
       </p>
-      <p>
-        A sua presença tornará o nosso dia ainda mais inesquecível! Por favor, preencha o formulário abaixo até a data informada para que possamos organizar tudo com muito carinho.
-      </p>
-    </div>
+      <div class="nav-tabs">
+        <button
+          class="tab-btn active"
+          onclick="switchTab('tab-presenca', this)"
+        >
+          💌 Confirmar Presença
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-presentes', this)">
+          🎁 Lista de Presentes
+        </button>
+        <button class="tab-btn" onclick="switchTab('tab-bolao', this)">
+          🎲 Brincadeira do Palpite
+        </button>
+      </div>
+    </header>
 
-    <div class="rsvp-form-card">
-      <div class="section-title" style="justify-content: center; margin-bottom: 20px;">💌 Confirmação de Presença (RSVP)</div>
+    <!-- ================= ABA 1: CONFIRMAR PRESENÇA (INICIAL) ================= -->
+    <main class="container tab-content active" id="tab-presenca">
+      <div class="welcome-card">
+        <h2>✨ Sejam muito bem-vindos!</h2>
+        <p>
+          Estamos preparando cada detalhe com muito amor e carinho para
+          compartilhar essa alegria com quem amamos.
+        </p>
+        <p>
+          A sua presença tornará o nosso dia ainda mais inesquecível! Por favor,
+          preencha o formulário abaixo até a data informada para que possamos
+          organizar tudo com muito carinho.
+        </p>
+        <p>
+          Após confirmar sua presença, dê uma olhada na nossa lista de presentes
+          e na nossa brincadeira do palpite.
+        </p>
+      </div>
 
-      <form id="presence-form" onsubmit="handlePresenceSubmit(event)">
-        <div class="form-group">
-          <label>Seu Nome Completo:</label>
-          <input type="text" id="rsvp-name" placeholder="Ex: Ana Paula da Silva" required />
+      <div class="rsvp-form-card">
+        <div
+          class="section-title"
+          style="justify-content: center; margin-bottom: 20px"
+        >
+          💌 Confirmação de Presença (RSVP)
         </div>
 
-        <div class="form-group">
-          <label>WhatsApp / Telefone de Contato:</label>
-          <input type="tel" id="rsvp-phone" placeholder="(31) 99999-9999" required />
-          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">🔒 Usado apenas pelos organizadores para recados do evento.</span>
-        </div>
+        <form id="presence-form" onsubmit="handlePresenceSubmit(event)">
+          <div class="form-group">
+            <label>Seu Nome Completo:</label>
+            <input
+              type="text"
+              id="rsvp-name"
+              placeholder="Ex: Ana Paula da Silva"
+              required
+            />
+          </div>
 
-        <div class="form-group">
-          <label>Você poderá comparecer ao Chá?</label>
-          <div class="presence-options">
-            <div class="presence-option">
-              <input type="radio" id="rsvp-yes" name="rsvp_status" value="Sim" onchange="toggleAcompanhantes(true)" required checked />
-              <label for="rsvp-yes" class="yes">🎉 Sim, com certeza!</label>
-            </div>
-            <div class="presence-option">
-              <input type="radio" id="rsvp-no" name="rsvp_status" value="Não" onchange="toggleAcompanhantes(false)" required />
-              <label for="rsvp-no" class="no">😢 Infelizmente não</label>
+          <div class="form-group">
+            <label>WhatsApp / Telefone de Contato:</label>
+            <input
+              type="tel"
+              id="rsvp-phone"
+              placeholder="(31) 99999-9999"
+              required
+            />
+            <span
+              style="
+                font-size: 0.78rem;
+                color: #78909c;
+                margin-top: 3px;
+                display: block;
+              "
+              >🔒 Usado apenas pelos organizadores para recados do evento.</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Você poderá comparecer ao Chá?</label>
+            <div class="presence-options">
+              <div class="presence-option">
+                <input
+                  type="radio"
+                  id="rsvp-yes"
+                  name="rsvp_status"
+                  value="Sim"
+                  onchange="toggleAcompanhantes(true)"
+                  required
+                  checked
+                />
+                <label for="rsvp-yes" class="yes">🎉 Sim, com certeza!</label>
+              </div>
+              <div class="presence-option">
+                <input
+                  type="radio"
+                  id="rsvp-no"
+                  name="rsvp_status"
+                  value="Não"
+                  onchange="toggleAcompanhantes(false)"
+                  required
+                />
+                <label for="rsvp-no" class="no">😢 Infelizmente não</label>
+              </div>
             </div>
           </div>
+
+          <div id="box-acompanhantes">
+            <div class="form-group">
+              <label>Quantos acompanhantes vão com você?</label>
+              <select id="rsvp-guests-count">
+                <option value="0">Vou sozinho(a) (0 acompanhantes)</option>
+                <option value="1">+ 1 acompanhante</option>
+                <option value="2">+ 2 acompanhantes</option>
+                <option value="3">+ 3 acompanhantes</option>
+                <option value="4">+ 4 acompanhantes</option>
+                <option value="5+">5 ou mais acompanhantes</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label
+                >Nome(s) do(s) acompanhante(s)
+                <span style="font-weight: 400; color: #78909c">(opcional)</span
+                >:</label
+              >
+              <input
+                type="text"
+                id="rsvp-guests-names"
+                placeholder="Ex: Carlos (esposo) e Lucas (filho)"
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Mensagem ou Recadinho para a Família
+              <span style="font-weight: 400; color: #78909c">(opcional)</span
+              >:</label
+            >
+            <textarea
+              id="rsvp-message"
+              rows="3"
+              placeholder="Deixe uma mensagem cheia de carinho para o bebê e os pais..."
+              style="resize: vertical"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-success"
+            id="btn-submit-presence"
+          >
+            Confirmar Minha Resposta
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <!-- ================= ABA 2: LISTA DE PRESENTES ================= -->
+    <main class="container tab-content" id="tab-presentes">
+      <div class="filters-section">
+        <span class="filter-group-title">🏷️ Filtrar por Categoria</span>
+        <div class="filters" id="filters-container">
+          <button
+            class="filter-btn active"
+            onclick="filterCategory('Todos', this)"
+          >
+            Todos
+          </button>
         </div>
 
-        <div id="box-acompanhantes">
+        <span class="filter-group-title" style="margin-top: 14px"
+          >💰 Filtrar por Faixa de Preço</span
+        >
+        <div class="filters" id="price-filters-container">
+          <button
+            class="filter-btn active"
+            onclick="filterPriceRange('all', this)"
+          >
+            Todos os Valores
+          </button>
+          <button class="filter-btn" onclick="filterPriceRange('0-50', this)">
+            Até R$ 50
+          </button>
+          <button class="filter-btn" onclick="filterPriceRange('50-100', this)">
+            R$ 50 – R$ 100
+          </button>
+          <button
+            class="filter-btn"
+            onclick="filterPriceRange('100-300', this)"
+          >
+            R$ 100 – R$ 300
+          </button>
+          <button class="filter-btn" onclick="filterPriceRange('300+', this)">
+            R$ 300+
+          </button>
+        </div>
+      </div>
+
+      <div class="grid" id="presents-grid"></div>
+    </main>
+
+    <!-- ================= ABA 3: PALPITES ================= -->
+    <main class="container tab-content" id="tab-bolao">
+      <div class="bolao-banner">
+        <div>
+          <h2>🏆 Como funciona a nossa Brincadeira "Chá de fralda"</h2>
+          <p>
+            A participação na brincadeira é <strong>Opcional!</strong> A ideia é
+            ter uma experiência divertida com os participantes, a única
+            obrigatoriedade que pedimos é a sua
+            <strong>confirmação na presença do evento.</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="regras-banner">
+        <div>
+          <h2>⚖️ Regras:</h2>
+          <p>
+            O participante deverá escolher qual o seu palpite e qual grupo ele
+            faz parte.
+          </p>
+          <p>
+            Após isso, o participante deverá escolher uma das opções de valor
+            para a sua contribuição:
+          </p>
+          <div>
+            <ul>
+              <li>Opção 1: R$ 25,00</li>
+              <li>Opção 2: R$ 35,00</li>
+              <li>Opção 3: R$ 50,00</li>
+              <li>Opção 4: R$ 100,00</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="awareness-banner">
+        <div class="icon">💛</div>
+        <p>
+          <strong>Ambiente Familiar & Recreativo:</strong> Esta é uma dinâmica
+          afetiva, lúdica e sem fins lucrativos, criada exclusivamente para
+          celebrar a chegada do bebê entre amigos e parentes. A participação é
+          100% voluntária e com valor fixo simbólico. Não promovemos apostas
+          comerciais ou jogos de azar.
+        </p>
+      </div>
+
+      <div class="security-banner">
+        <div class="security-icon">🔒</div>
+        <div class="security-content">
+          <h4>Privacidade e Segurança das Contribuições</h4>
+          <p>
+            Para garantir tranquilidade e transparência a todos os convidados:
+          </p>
+          <ul>
+            <li>
+              <strong>Privacidade Garantida:</strong> Seus contatos (como
+              WhatsApp) são usados apenas caso a organização precise entrar em
+              contato e <u>nunca</u> ficam expostos no site.
+            </li>
+            <li>
+              <strong>Validação Segura:</strong> As contribuições podem ser
+              confirmadas mediante contato com a organização.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Apenas Palpites Confirmados -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="label">Palpites Confirmados</div>
+          <div class="num" id="stat-apostas">0</div>
+        </div>
+      </div>
+
+      <div class="bar-container">
+        <div class="section-title">📊 Termômetro Geral dos Palpites</div>
+        <div class="bar-legend">
+          <span style="color: var(--primary-boy)"
+            >👦 Menino: <span id="pct-boy">50%</span> (<span id="count-boy"
+              >0</span
+            >
+            votos)</span
+          >
+          <span style="color: var(--primary-girl)"
+            >👧 Menina: <span id="pct-girl">50%</span> (<span id="count-girl"
+              >0</span
+            >
+            votos)</span
+          >
+        </div>
+        <div class="progress-track">
+          <div class="bar-boy" id="bar-boy" style="width: 50%">Menino</div>
+          <div class="bar-girl" id="bar-girl" style="width: 50%">Menina</div>
+        </div>
+      </div>
+
+      <div class="section-title">👥 Disputa Amigável por Grupos</div>
+      <div class="groups-grid" id="groups-container"></div>
+
+      <div class="form-card">
+        <div
+          class="section-title"
+          style="justify-content: center; margin-bottom: 20px"
+        >
+          ✍️ Deixar meu Palpite
+        </div>
+
+        <form id="bolao-form" onsubmit="handleBolaoSubmit(event)">
           <div class="form-group">
-            <label>Quantos acompanhantes vão com você?</label>
-            <select id="rsvp-guests-count">
-              <option value="0">Vou sozinho(a) (0 acompanhantes)</option>
-              <option value="1">+ 1 acompanhante</option>
-              <option value="2">+ 2 acompanhantes</option>
-              <option value="3">+ 3 acompanhantes</option>
-              <option value="4">+ 4 acompanhantes</option>
-              <option value="5+">5 ou mais acompanhantes</option>
+            <label>Seu Nome Completo:</label>
+            <input
+              type="text"
+              id="bet-name"
+              placeholder="Ex: Maria Clara"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label>WhatsApp / Telefone:</label>
+            <input
+              type="tel"
+              id="bet-phone"
+              placeholder="(31) 99999-9999"
+              required
+            />
+            <span
+              style="
+                font-size: 0.78rem;
+                color: #78909c;
+                margin-top: 3px;
+                display: block;
+              "
+              >🔒 Usado apenas para avisar os vencedores (não fica visível
+              publicamente).</span
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Qual é o seu Grupo?</label>
+            <select id="bet-group" required>
+              <option value="">Selecione seu vínculo...</option>
+              <option value="Família do Pai">👨‍👩‍👦 Família do Pai</option>
+              <option value="Família da Mãe">👩‍👩‍👦 Família da Mãe</option>
+              <option value="Amigos do Pai">⚽ Amigos do Pai</option>
+              <option value="Amigos da Mãe">🌸 Amigos da Mãe</option>
+              <option value="Outros">✨ Outros / Colegas</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label>Nome(s) do(s) acompanhante(s) <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
-            <input type="text" id="rsvp-guests-names" placeholder="Ex: Carlos (esposo) e Lucas (filho)" />
+            <label>Qual é o seu Palpite?</label>
+            <div class="gender-selector">
+              <div class="gender-radio">
+                <input
+                  type="radio"
+                  id="gender-boy"
+                  name="gender"
+                  value="Menino"
+                  required
+                />
+                <label for="gender-boy" class="boy">👦 Menino</label>
+              </div>
+              <div class="gender-radio">
+                <input
+                  type="radio"
+                  id="gender-girl"
+                  name="gender"
+                  value="Menina"
+                  required
+                />
+                <label for="gender-girl" class="girl">👧 Menina</label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dropdown com valores de contribuição -->
+          <div class="form-group">
+            <label>Valor da Contribuição:</label>
+            <select id="bet-valor" required style="font-weight: 700; color: #2e7d32;">
+              <option value="25">R$ 25,00</option>
+              <option value="35">R$ 35,00</option>
+              <option value="50">R$ 50,00</option>
+              <option value="100">R$ 100,00</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label
+              >Nome do Titular do PIX
+              <span style="font-weight: 400; color: #78909c">(opcional)</span
+              >:</label
+            >
+            <input
+              type="text"
+              id="bet-pagador"
+              placeholder="Preencha se outra pessoa pagou o PIX por você"
+            />
+            <span
+              style="
+                font-size: 0.78rem;
+                color: #78909c;
+                margin-top: 3px;
+                display: block;
+              "
+              >Ex: se alguém fez um PIX único cobrindo você e outra pessoa,
+              informe o nome de quem fez a transferência.</span
+            >
+          </div>
+
+          <div class="pix-box">
+            <p style="font-size: 0.85rem; color: #558b2f">
+              Faça o PIX para confirmar sua participação:
+            </p>
+            <div class="pix-key">016.199.386-93</div>
+            <p style="font-size: 0.8rem; color: #689f38; margin-top: 4px">
+              Banco: Nubank
+            </p>
+            <p style="font-size: 0.8rem; color: #689f38; margin-top: 4px">
+              Titular: Andréia Cristina dos Anjos Gonçalves
+            </p>
+          </div>
+
+          <div class="form-group">
+            <label
+              style="
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                cursor: pointer;
+                font-size: 0.9rem;
+              "
+            >
+              <input
+                type="checkbox"
+                id="bet-paid"
+                required
+                style="width: auto"
+              />
+              Confirmo que realizei a transferência via PIX
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="btn-submit-bet">
+            Confirmar Palpite
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <!-- Modal de Confirmação e Exibição do Link de Afiliado -->
+    <div class="modal-overlay" id="reserve-modal">
+      <div class="modal">
+        <div id="modal-step-form">
+          <h3 id="modal-item-name" style="margin-bottom: 10px; color: #37474f">
+            Reservar Presente
+          </h3>
+          <p style="font-size: 0.9rem; color: #666; margin-bottom: 14px">
+            Preencha seus dados para marcar o item como reservado e liberar o
+            link da loja:
+          </p>
+
+          <label style="font-size: 0.85rem; font-weight: 700; color: #546e7a"
+            >Seu Nome Completo:</label
+          >
+          <input
+            type="text"
+            id="guest-name"
+            placeholder="Nome completo"
+            style="
+              width: 100%;
+              padding: 10px;
+              margin: 5px 0 16px;
+              border-radius: 8px;
+              border: 1px solid #cfd8dc;
+              font-family: inherit;
+            "
+            required
+          />
+
+          <div style="display: flex; gap: 10px">
+            <button
+              class="btn btn-disabled"
+              onclick="closeModal()"
+              style="background: #eee; color: #555"
+            >
+              Cancelar
+            </button>
+            <button
+              class="btn btn-primary"
+              id="btn-confirm-present"
+              onclick="submitPresentReservation()"
+            >
+              Confirmar e Ver Link
+            </button>
           </div>
         </div>
 
-        <div class="form-group">
-          <label>Mensagem ou Recadinho para a Família <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
-          <textarea id="rsvp-message" rows="3" placeholder="Deixe uma mensagem cheia de carinho para o bebê e os pais..." style="resize: vertical;"></textarea>
+        <div
+          id="modal-step-success"
+          class="modal-step-success"
+          style="display: none"
+        >
+          <div class="icon">🎁</div>
+          <h3 style="color: #2e7d32; margin-bottom: 8px">
+            Presente Reservado!
+          </h3>
+          <p style="font-size: 0.9rem; color: #546e7a; margin-bottom: 16px">
+            Muito obrigado pelo carinho! Você pode comprar o presente na sua
+            loja preferida ou acessar a sugestão direta abaixo:
+          </p>
+
+          <a
+            id="btn-open-affiliate"
+            href="#"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-affiliate"
+          >
+            🛍️ Abrir Sugestão de Compra na Loja
+          </a>
+
+          <button
+            class="btn"
+            onclick="closeModal()"
+            style="background: transparent; color: #78909c; margin-top: 10px"
+          >
+            Fechar Janela
+          </button>
         </div>
-
-        <button type="submit" class="btn btn-success" id="btn-submit-presence">Confirmar Minha Resposta</button>
-      </form>
-    </div>
-
-  </main>
-
-
-  <!-- ================= ABA 2: LISTA DE PRESENTES ================= -->
-  <main class="container tab-content" id="tab-presentes">
-    <div class="filters" id="filters-container">
-      <button class="filter-btn active" onclick="filterPresents('Todos')">Todos</button>
-    </div>
-
-    <div class="grid" id="presents-grid"></div>
-  </main>
-
-
-  <!-- ================= ABA 3: PALPITES ================= -->
-  <main class="container tab-content" id="tab-bolao">
-    
-    <div class="bolao-banner">
-      <div>
-        <h2>🏆 Como funciona a nossa Brincadeira</h2>
-        <p>Contribuição simbólica: <strong>R$ 10,00 por participante</strong>. Metade (50%) é revertida em prêmio comemorativo para quem acertar o palpite e a outra metade (50%) vai direto para o enxoval do <strong>Baby Black Friday</strong>!</p>
-      </div>
-    </div>
-
-    <div class="awareness-banner">
-      <div class="icon">💛</div>
-      <p>
-        <strong>Ambiente Familiar & Recreativo:</strong> Esta é uma dinâmica afetiva, lúdica e sem fins lucrativos, criada exclusivamente para celebrar a chegada do bebê entre amigos e parentes. A participação é 100% voluntária e com valor fixo simbólico. Não promovemos apostas comerciais ou jogos de azar.
-      </p>
-    </div>
-
-    <div class="security-banner">
-      <div class="security-icon">🔒</div>
-      <div class="security-content">
-        <h4>Privacidade e Segurança das Contribuições</h4>
-        <p>Para garantir tranquilidade e transparência a todos os convidados:</p>
-        <ul>
-          <li><strong>Privacidade Garantida:</strong> Seus contatos (como WhatsApp) são usados apenas pela organização para avisar sobre o resultado e <u>nunca</u> ficam expostos no site.</li>
-          <li><strong>Validação Segura:</strong> As contribuições são confirmadas via conferência bancária para manter as métricas sempre corretas.</li>
-        </ul>
       </div>
     </div>
 
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="label">Total Arrecadado</div>
-        <div class="num" id="stat-total">R$ 0,00</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Premiação Ganhadores (50%)</div>
-        <div class="num" style="color: #2e7d32;" id="stat-premio">R$ 0,00</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Baby Black Friday (50%)</div>
-        <div class="num" style="color: #e65100;" id="stat-baby">R$ 0,00</div>
-      </div>
-      <div class="stat-card">
-        <div class="label">Palpites Confirmados</div>
-        <div class="num" style="color: #0288d1;" id="stat-apostas">0</div>
-      </div>
-    </div>
+    <script>
+      // ⚙️ URL DO GOOGLE APPS SCRIPT
+      const API_URL = "__APPS_SCRIPT_URL__";
 
-    <div class="bar-container">
-      <div class="section-title">📊 Termômetro Geral dos Palpites</div>
-      <div class="bar-legend">
-        <span style="color: var(--primary-boy);">👦 Menino: <span id="pct-boy">50%</span> (<span id="count-boy">0</span> votos)</span>
-        <span style="color: var(--primary-girl);">👧 Menina: <span id="pct-girl">50%</span> (<span id="count-girl">0</span> votos)</span>
-      </div>
-      <div class="progress-track">
-        <div class="bar-boy" id="bar-boy" style="width: 50%;">Menino</div>
-        <div class="bar-girl" id="bar-girl" style="width: 50%;">Menina</div>
-      </div>
-    </div>
+      let presentsData = [];
+      let betsData = [];
+      let selectedPresent = null;
 
-    <div class="section-title">👥 Disputa Amigável por Grupos</div>
-    <div class="groups-grid" id="groups-container"></div>
-
-    <div class="form-card">
-      <div class="section-title" style="justify-content: center; margin-bottom: 20px;">✍️ Deixar meu Palpite</div>
-      
-      <form id="bolao-form" onsubmit="handleBolaoSubmit(event)">
-        <div class="form-group">
-          <label>Seu Nome Completo:</label>
-          <input type="text" id="bet-name" placeholder="Ex: Maria Clara" required />
-        </div>
-
-        <div class="form-group">
-          <label>WhatsApp / Telefone:</label>
-          <input type="tel" id="bet-phone" placeholder="(31) 99999-9999" required />
-          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">🔒 Usado apenas para avisar os vencedores (não fica visível publicamente).</span>
-        </div>
-
-        <div class="form-group">
-          <label>Qual é o seu Grupo?</label>
-          <select id="bet-group" required>
-            <option value="">Selecione seu vínculo...</option>
-            <option value="Família do Pai">👨‍👩‍👦 Família do Pai</option>
-            <option value="Família da Mãe">👩‍👩‍👦 Família da Mãe</option>
-            <option value="Amigos do Pai">⚽ Amigos do Pai</option>
-            <option value="Amigos da Mãe">🌸 Amigos da Mãe</option>
-            <option value="Outros">✨ Outros / Colegas</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Qual é o seu Palpite?</label>
-          <div class="gender-selector">
-            <div class="gender-radio">
-              <input type="radio" id="gender-boy" name="gender" value="Menino" required />
-              <label for="gender-boy" class="boy">👦 Menino</label>
-            </div>
-            <div class="gender-radio">
-              <input type="radio" id="gender-girl" name="gender" value="Menina" required />
-              <label for="gender-girl" class="girl">👧 Menina</label>
-            </div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Valor da Contribuição:</label>
-          <input type="text" value="R$ 10,00 (Valor Fixo por Participante)" disabled style="background: #f5f5f5; font-weight: 700; color: #37474f;" />
-        </div>
-
-        <div class="form-group">
-          <label>Nome do Titular do PIX <span style="font-weight: 400; color: #78909c;">(opcional)</span>:</label>
-          <input type="text" id="bet-pagador" placeholder="Preencha se outra pessoa pagou o PIX por você" />
-          <span style="font-size: 0.78rem; color: #78909c; margin-top: 3px; display: block;">Ex: se alguém fez um PIX único cobrindo você e outra pessoa, informe o nome de quem fez a transferência.</span>
-        </div>
-
-        <div class="pix-box">
-          <p style="font-size: 0.85rem; color: #558b2f;">Faça o PIX para confirmar sua participação:</p>
-          <div class="pix-key">016.199.386-93</div>
-          <p style="font-size: 0.8rem; color: #689f38; margin-top: 4px;">Titular: Andréia Gonçalves</p>
-        </div>
-
-        <div class="form-group">
-          <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 0.9rem;">
-            <input type="checkbox" id="bet-paid" required style="width: auto;" />
-            Confirmo que realizei a transferência via PIX
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary" id="btn-submit-bet">Confirmar Palpite</button>
-      </form>
-    </div>
-
-  </main>
-
-
-  <!-- Modal de Confirmação e Exibição do Link de Afiliado -->
-  <div class="modal-overlay" id="reserve-modal">
-    <div class="modal">
-      
-      <div id="modal-step-form">
-        <h3 id="modal-item-name" style="margin-bottom: 10px; color: #37474f;">Reservar Presente</h3>
-        <p style="font-size: 0.9rem; color: #666; margin-bottom: 14px;">Preencha seus dados para marcar o item como reservado e liberar o link da loja:</p>
-        
-        <label style="font-size: 0.85rem; font-weight: 700; color: #546e7a;">Seu Nome Completo:</label>
-        <input type="text" id="guest-name" placeholder="Nome completo" style="width:100%; padding:10px; margin:5px 0 16px; border-radius:8px; border:1px solid #cfd8dc; font-family:inherit;" required />
-        
-        <div style="display: flex; gap: 10px;">
-          <button class="btn btn-disabled" onclick="closeModal()" style="background:#eee; color:#555;">Cancelar</button>
-          <button class="btn btn-primary" id="btn-confirm-present" onclick="submitPresentReservation()">Confirmar e Ver Link</button>
-        </div>
-      </div>
-
-      <div id="modal-step-success" class="modal-step-success" style="display: none;">
-        <div class="icon">🎁</div>
-        <h3 style="color: #2e7d32; margin-bottom: 8px;">Presente Reservado!</h3>
-        <p style="font-size: 0.9rem; color: #546e7a; margin-bottom: 16px;">
-          Muito obrigado pelo carinho! Você pode comprar o presente na sua loja preferida ou acessar a sugestão direta abaixo:
-        </p>
-
-        <a id="btn-open-affiliate" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-affiliate">
-          🛍️ Abrir Sugestão de Compra na Loja
-        </a>
-
-        <button class="btn" onclick="closeModal()" style="background: transparent; color: #78909c; margin-top: 10px;">
-          Fechar Janela
-        </button>
-      </div>
-
-    </div>
-  </div>
-
-
-  <script>
-    // ⚙️ URL DO GOOGLE APPS SCRIPT
-    const API_URL = "__APPS_SCRIPT_URL__";
-
-    let presentsData = [];
-    let betsData = [];
-    let selectedPresent = null;
-
-    function switchTab(tabId, btn) {
-      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-      document.getElementById(tabId).classList.add('active');
-      btn.classList.add('active');
-    }
-
-    function toggleAcompanhantes(canAttend) {
-      const box = document.getElementById('box-acompanhantes');
-      if (box) {
-        box.style.display = canAttend ? 'block' : 'none';
+      function switchTab(tabId, btn) {
+        document
+          .querySelectorAll(".tab-content")
+          .forEach((el) => el.classList.remove("active"));
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((el) => el.classList.remove("active"));
+        document.getElementById(tabId).classList.add("active");
+        btn.classList.add("active");
       }
-    }
 
-    async function loadData() {
-      try {
-        const res = await fetch(API_URL);
-        const data = await res.json();
-        
-        presentsData = data.presentes || [];
-        betsData = data.bolao || [];
+      function toggleAcompanhantes(canAttend) {
+        const box = document.getElementById("box-acompanhantes");
+        if (box) {
+          box.style.display = canAttend ? "block" : "none";
+        }
+      }
 
+      async function loadData() {
+        try {
+          const res = await fetch(API_URL);
+          const data = await res.json();
+
+          presentsData = data.presentes || [];
+          betsData = data.bolao || [];
+
+          renderPresents(presentsData);
+          renderPresentsFilters();
+          updateBolaoDashboard();
+        } catch (e) {
+          console.warn("Usando mock local ou erro de rede", e);
+          mockData();
+        }
+      }
+
+      function mockData() {
+        presentsData = [
+          {
+            ID: "1",
+            Item: "Lavador de mamadeira",
+            Categoria: "Alimentação",
+            Preço: "R$ 24,00",
+            Descricao: "Kit lavador de mamadeira",
+            Imagem:
+              "https://raw.githubusercontent.com/AGimps/cha-de-bebe/main/img/alimentacao/escova-lava-mamadeira.webp",
+            Link: "https://amzn.to/SEU_LINK",
+            Status: "Disponivel",
+            Reservado_Por: "",
+          },
+          {
+            ID: "2",
+            Item: "Kit babador de bebê",
+            Categoria: "Alimentação",
+            Preço: "R$ 75,00",
+            Descricao: "Kit babador de bebê (cor cinza)",
+            Imagem:
+              "https://raw.githubusercontent.com/AGimps/cha-de-bebe/main/img/alimentacao/kit-babadores.webp",
+            Link: "https://s.shopee.com.br/SEU_LINK",
+            Status: "Disponivel",
+            Reservado_Por: "",
+          },
+          {
+            ID: "3",
+            Item: "Cadeira de Papinha",
+            Categoria: "Alimentação",
+            Preço: "R$ 320,00",
+            Descricao: "Cadeira alta ergonômica",
+            Imagem:
+              "https://raw.githubusercontent.com/AGTasksDataScience/cha-de-bebe/main/img/alimentacao/cadeira-papinha.jpg",
+            Link: "https://amzn.to/SEU_LINK",
+            Status: "Disponivel",
+            Reservado_Por: "",
+          },
+        ];
+        betsData = [
+          {
+            Nome: "Carlos",
+            Grupo: "Família do Pai",
+            Palpite: "Menino",
+            Valor: 25,
+            Pagador_PIX: "Carlos",
+            Pago: "Sim",
+          },
+          {
+            Nome: "Ana",
+            Grupo: "Família da Mãe",
+            Palpite: "Menina",
+            Valor: 35,
+            Pagador_PIX: "Carlos",
+            Pago: "Sim",
+          },
+        ];
         renderPresents(presentsData);
         renderPresentsFilters();
         updateBolaoDashboard();
-      } catch (e) {
-        console.warn("Usando mock local ou erro de rede", e);
-        mockData();
       }
-    }
 
-    function mockData() {
-      presentsData = [
-        { ID: "1", Item: "Cadeira de Papinha", Categoria: "Alimentação", Descricao: "Cadeira alta ergonômica", Imagem: "https://raw.githubusercontent.com/AGTasksDataScience/cha-de-bebe/main/img/alimentacao/cadeira-papinha.jpg", Link: "https://amzn.to/SEU_LINK", Status: "Disponivel", Reservado_Por: "" },
-        { ID: "2", Item: "Banheira Ergonômica", Categoria: "Higiene e Banho", Descricao: "Banheira com suporte", Imagem: "https://raw.githubusercontent.com/AGTasksDataScience/cha-de-bebe/main/img/higiene-e-banho/banheira-ergonomica.jpg", Link: "https://s.shopee.com.br/SEU_LINK", Status: "Disponivel", Reservado_Por: "" }
-      ];
-      betsData = [
-        { Nome: "Carlos", Grupo: "Família do Pai", Palpite: "Menino", Valor: 10, Pagador_PIX: "Carlos", Pago: "Sim" },
-        { Nome: "Ana", Grupo: "Família da Mãe", Palpite: "Menina", Valor: 10, Pagador_PIX: "Carlos", Pago: "Sim" }
-      ];
-      renderPresents(presentsData);
-      renderPresentsFilters();
-      updateBolaoDashboard();
-    }
+      async function handlePresenceSubmit(e) {
+        e.preventDefault();
+        const nome = document.getElementById("rsvp-name").value.trim();
+        const telefone = document.getElementById("rsvp-phone").value.trim();
+        const comparecera = document.querySelector(
+          'input[name="rsvp_status"]:checked',
+        ).value;
+        const qtdAcompanhantes =
+          comparecera === "Sim"
+            ? document.getElementById("rsvp-guests-count").value
+            : "0";
+        const nomesAcompanhantes =
+          comparecera === "Sim"
+            ? document.getElementById("rsvp-guests-names").value.trim()
+            : "";
+        const mensagem = document.getElementById("rsvp-message").value.trim();
 
-    async function handlePresenceSubmit(e) {
-      e.preventDefault();
-      const nome = document.getElementById('rsvp-name').value.trim();
-      const telefone = document.getElementById('rsvp-phone').value.trim();
-      const comparecera = document.querySelector('input[name="rsvp_status"]:checked').value;
-      const qtdAcompanhantes = comparecera === "Sim" ? document.getElementById('rsvp-guests-count').value : "0";
-      const nomesAcompanhantes = comparecera === "Sim" ? document.getElementById('rsvp-guests-names').value.trim() : "";
-      const mensagem = document.getElementById('rsvp-message').value.trim();
+        const btn = document.getElementById("btn-submit-presence");
+        btn.innerText = "Enviando confirmação...";
+        btn.disabled = true;
 
-      const btn = document.getElementById('btn-submit-presence');
-      btn.innerText = 'Enviando confirmação...';
-      btn.disabled = true;
+        const payload = {
+          tipo: "presenca",
+          nome,
+          telefone,
+          comparecera,
+          qtd_acompanhantes: qtdAcompanhantes,
+          nomes_acompanhantes: nomesAcompanhantes,
+          mensagem,
+        };
 
-      const payload = {
-        tipo: "presenca",
-        nome,
-        telefone,
-        comparecera,
-        qtd_acompanhantes: qtdAcompanhantes,
-        nomes_acompanhantes: nomesAcompanhantes,
-        mensagem
-      };
+        try {
+          await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
 
-      try {
-        await fetch(API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+          alert(
+            "💖 Resposta registrada com sucesso! Muito obrigado pelo carinho.",
+          );
+          document.getElementById("presence-form").reset();
+          toggleAcompanhantes(true);
+        } catch (err) {
+          alert("Ocorreu um erro ao enviar sua confirmação. Tente novamente.");
+        } finally {
+          btn.innerText = "Confirmar Minha Resposta";
+          btn.disabled = false;
+        }
+      }
+
+      function updateBolaoDashboard() {
+        const paidBets = betsData.filter(
+          (b) => String(b.Pago).toLowerCase() === "sim" || b.Pago === true,
+        );
+
+        let countBoy = 0;
+        let countGirl = 0;
+
+        const groupStats = {
+          "Família do Pai": { boy: 0, girl: 0 },
+          "Família da Mãe": { boy: 0, girl: 0 },
+          "Amigos do Pai": { boy: 0, girl: 0 },
+          "Amigos da Mãe": { boy: 0, girl: 0 },
+          Outros: { boy: 0, girl: 0 },
+        };
+
+        paidBets.forEach((bet) => {
+          const palpite = (bet.Palpite || "").toLowerCase();
+          const grupo = bet.Grupo || "Outros";
+
+          if (!groupStats[grupo]) groupStats[grupo] = { boy: 0, girl: 0 };
+
+          if (palpite.includes("menino")) {
+            countBoy++;
+            groupStats[grupo].boy++;
+          } else if (palpite.includes("menina")) {
+            countGirl++;
+            groupStats[grupo].girl++;
+          }
         });
 
-        alert('💖 Resposta registrada com sucesso! Muito obrigado pelo carinho.');
-        document.getElementById('presence-form').reset();
-        toggleAcompanhantes(true);
-      } catch (err) {
-        alert('Ocorreu um erro ao enviar sua confirmação. Tente novamente.');
-      } finally {
-        btn.innerText = 'Confirmar Minha Resposta';
-        btn.disabled = false;
-      }
-    }
+        // Atualiza a quantidade de palpites confirmados
+        const elApostas = document.getElementById("stat-apostas");
+        if (elApostas) elApostas.innerText = paidBets.length;
 
-    function updateBolaoDashboard() {
-      const paidBets = betsData.filter(b => String(b.Pago).toLowerCase() === 'sim' || b.Pago === true);
+        // Atualiza o termômetro geral
+        const totalCount = countBoy + countGirl;
+        const pctBoy =
+          totalCount > 0 ? Math.round((countBoy / totalCount) * 100) : 50;
+        const pctGirl = totalCount > 0 ? 100 - pctBoy : 50;
 
-      let totalBoy = 0;
-      let totalGirl = 0;
-      let countBoy = 0;
-      let countGirl = 0;
-      let totalMoney = 0;
+        document.getElementById("pct-boy").innerText = `${pctBoy}%`;
+        document.getElementById("count-boy").innerText = countBoy;
+        document.getElementById("pct-girl").innerText = `${pctGirl}%`;
+        document.getElementById("count-girl").innerText = countGirl;
 
-      const groupStats = {
-        "Família do Pai": { boy: 0, girl: 0 },
-        "Família da Mãe": { boy: 0, girl: 0 },
-        "Amigos do Pai": { boy: 0, girl: 0 },
-        "Amigos da Mãe": { boy: 0, girl: 0 },
-        "Outros": { boy: 0, girl: 0 }
-      };
+        document.getElementById("bar-boy").style.width = `${pctBoy}%`;
+        document.getElementById("bar-girl").style.width = `${pctGirl}%`;
+        document.getElementById("bar-boy").innerText =
+          pctBoy > 15 ? `👦 ${pctBoy}%` : "";
+        document.getElementById("bar-girl").innerText =
+          pctGirl > 15 ? `👧 ${pctGirl}%` : "";
 
-      paidBets.forEach(bet => {
-        const val = parseFloat(bet.Valor) || 10;
-        totalMoney += val;
-        const palpite = (bet.Palpite || '').toLowerCase();
-        const grupo = bet.Grupo || 'Outros';
+        // Atualiza os grupos
+        const groupsContainer = document.getElementById("groups-container");
+        groupsContainer.innerHTML = Object.keys(groupStats)
+          .map((grp) => {
+            const g = groupStats[grp];
+            const gTotal = g.boy + g.girl;
+            const gPctBoy =
+              gTotal > 0 ? Math.round((g.boy / gTotal) * 100) : 50;
+            const gPctGirl = gTotal > 0 ? 100 - gPctBoy : 50;
 
-        if (!groupStats[grupo]) groupStats[grupo] = { boy: 0, girl: 0 };
-
-        if (palpite.includes('menino')) {
-          countBoy++;
-          totalBoy += val;
-          groupStats[grupo].boy++;
-        } else if (palpite.includes('menina')) {
-          countGirl++;
-          totalGirl++;
-          groupStats[grupo].girl++;
-        }
-      });
-
-      const premio = totalMoney * 0.5;
-      const babyBlackFriday = totalMoney * 0.5;
-
-      document.getElementById('stat-total').innerText = totalMoney.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-      document.getElementById('stat-premio').innerText = premio.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-      document.getElementById('stat-baby').innerText = babyBlackFriday.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-      document.getElementById('stat-apostas').innerText = paidBets.length;
-
-      const totalCount = countBoy + countGirl;
-      const pctBoy = totalCount > 0 ? Math.round((countBoy / totalCount) * 100) : 50;
-      const pctGirl = totalCount > 0 ? (100 - pctBoy) : 50;
-
-      document.getElementById('pct-boy').innerText = `${pctBoy}%`;
-      document.getElementById('count-boy').innerText = countBoy;
-      document.getElementById('pct-girl').innerText = `${pctGirl}%`;
-      document.getElementById('count-girl').innerText = countGirl;
-
-      document.getElementById('bar-boy').style.width = `${pctBoy}%`;
-      document.getElementById('bar-girl').style.width = `${pctGirl}%`;
-      document.getElementById('bar-boy').innerText = pctBoy > 15 ? `👦 ${pctBoy}%` : '';
-      document.getElementById('bar-girl').innerText = pctGirl > 15 ? `👧 ${pctGirl}%` : '';
-
-      const groupsContainer = document.getElementById('groups-container');
-      groupsContainer.innerHTML = Object.keys(groupStats).map(grp => {
-        const g = groupStats[grp];
-        const gTotal = g.boy + g.girl;
-        const gPctBoy = gTotal > 0 ? Math.round((g.boy / gTotal) * 100) : 50;
-        const gPctGirl = gTotal > 0 ? (100 - gPctBoy) : 50;
-
-        return `
+            return `
           <div class="group-card">
             <h4>${grp}</h4>
             <div style="display:flex; justify-content:space-between; font-size:0.8rem; font-weight:700;">
@@ -1092,166 +1514,276 @@
             </div>
           </div>
         `;
-      }).join('');
-    }
+          })
+          .join("");
+      }
 
-    async function handleBolaoSubmit(e) {
-      e.preventDefault();
-      const nome = document.getElementById('bet-name').value.trim();
-      const telefone = document.getElementById('bet-phone').value.trim();
-      const grupo = document.getElementById('bet-group').value;
-      const palpite = document.querySelector('input[name="gender"]:checked').value;
-      const pagador_pix = document.getElementById('bet-pagador').value.trim() || nome;
-      const pago = document.getElementById('bet-paid').checked ? "Sim" : "Não";
+      async function handleBolaoSubmit(e) {
+        e.preventDefault();
+        const nome = document.getElementById("bet-name").value.trim();
+        const telefone = document.getElementById("bet-phone").value.trim();
+        const grupo = document.getElementById("bet-group").value;
+        const palpite = document.querySelector(
+          'input[name="gender"]:checked',
+        ).value;
+        const valor = parseFloat(document.getElementById("bet-valor").value) || 25;
+        const pagador_pix =
+          document.getElementById("bet-pagador").value.trim() || nome;
+        const pago = document.getElementById("bet-paid").checked
+          ? "Sim"
+          : "Não";
 
-      const btn = document.getElementById('btn-submit-bet');
-      btn.innerText = 'Gravando palpite...';
-      btn.disabled = true;
+        const btn = document.getElementById("btn-submit-bet");
+        btn.innerText = "Gravando palpite...";
+        btn.disabled = true;
 
-      const payload = {
-        tipo: "bolao",
-        nome,
-        telefone,
-        grupo,
-        palpite,
-        valor: 10,
-        pagador_pix,
-        pago
-      };
+        const payload = {
+          tipo: "bolao",
+          nome,
+          telefone,
+          grupo,
+          palpite,
+          valor: valor,
+          pagador_pix,
+          pago,
+        };
 
-      try {
-        await fetch(API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
+        try {
+          await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          alert("🎉 Palpite confirmado com sucesso! Boa sorte!");
+          betsData.push(payload);
+          updateBolaoDashboard();
+          document.getElementById("bolao-form").reset();
+        } catch (err) {
+          alert("Ocorreu um erro ao registrar seu palpite.");
+        } finally {
+          btn.innerText = "Confirmar Palpite";
+          btn.disabled = false;
+        }
+      }
+
+      let selectedCategory = "Todos";
+      let selectedPriceRange = "all";
+
+      function parseItemPrice(val) {
+        if (val === undefined || val === null || val === "") return null;
+        if (typeof val === "number") return val;
+        const str = String(val)
+          .replace("R$", "")
+          .replace(/\s/g, "")
+          .replace(".", "")
+          .replace(",", ".");
+        const num = parseFloat(str);
+        return isNaN(num) ? null : num;
+      }
+
+      function formatItemPrice(val) {
+        const num = parseItemPrice(val);
+        if (num === null) return String(val || "");
+        return num.toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
         });
-
-        alert('🎉 Palpite confirmado com sucesso! Boa sorte!');
-        betsData.push(payload);
-        updateBolaoDashboard();
-        document.getElementById('bolao-form').reset();
-      } catch (err) {
-        alert('Ocorreu um erro ao registrar seu palpite.');
-      } finally {
-        btn.innerText = 'Confirmar Palpite';
-        btn.disabled = false;
       }
-    }
 
-    function renderPresentsFilters() {
-      const categories = ['Todos', ...new Set(presentsData.map(i => i.Categoria).filter(Boolean))];
-      const container = document.getElementById('filters-container');
-      container.innerHTML = categories.map(cat => 
-        `<button class="filter-btn ${cat === 'Todos' ? 'active' : ''}" onclick="filterPresents('${cat}', this)">${cat}</button>`
-      ).join('');
-    }
-
-    function filterPresents(category, btn) {
-      if (btn) {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      function renderPresentsFilters() {
+        const categories = [
+          "Todos",
+          ...new Set(presentsData.map((i) => i.Categoria).filter(Boolean)),
+        ];
+        const container = document.getElementById("filters-container");
+        container.innerHTML = categories
+          .map(
+            (cat) =>
+              `<button class="filter-btn ${cat === selectedCategory ? "active" : ""}" onclick="filterCategory('${cat}', this)">${cat}</button>`,
+          )
+          .join("");
       }
-      if (category === 'Todos') {
-        renderPresents(presentsData);
-      } else {
-        renderPresents(presentsData.filter(i => i.Categoria === category));
-      }
-    }
 
-    function renderPresents(items) {
-      const grid = document.getElementById('presents-grid');
-      grid.innerHTML = items.map(item => {
-        const isReserved = (item.Status || '').toLowerCase() === 'reservado';
-        return `
-          <div class="card ${isReserved ? 'reserved' : ''}">
-            <img src="${item.Imagem || 'https://via.placeholder.com/300x200?text=Presente'}" alt="${item.Item}">
+      function filterCategory(category, btn) {
+        selectedCategory = category;
+        if (btn) {
+          document
+            .querySelectorAll("#filters-container .filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        }
+        applyFilters();
+      }
+
+      function filterPriceRange(range, btn) {
+        selectedPriceRange = range;
+        if (btn) {
+          document
+            .querySelectorAll("#price-filters-container .filter-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+        }
+        applyFilters();
+      }
+
+      function applyFilters() {
+        let filtered = presentsData;
+
+        // Filtro de Categoria
+        if (selectedCategory !== "Todos") {
+          filtered = filtered.filter(
+            (i) => (i.Categoria || "").trim() === selectedCategory.trim(),
+          );
+        }
+
+        // Filtro de Preço
+        if (selectedPriceRange !== "all") {
+          filtered = filtered.filter((i) => {
+            const rawPrice =
+              i["Preço"] !== undefined
+                ? i["Preço"]
+                : i.Preco !== undefined
+                  ? i.Preco
+                  : i.Preço;
+            const price = parseItemPrice(rawPrice);
+            if (price === null) return true;
+
+            if (selectedPriceRange === "0-50") return price <= 50;
+            if (selectedPriceRange === "50-100")
+              return price >= 50 && price <= 100;
+            if (selectedPriceRange === "100-300")
+              return price >= 100 && price <= 300;
+            if (selectedPriceRange === "300+") return price >= 300;
+            return true;
+          });
+        }
+
+        renderPresents(filtered);
+      }
+
+      function renderPresents(items) {
+        const grid = document.getElementById("presents-grid");
+        if (items.length === 0) {
+          grid.innerHTML = `<div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 1.05rem;">
+          Nenhum presente encontrado para os filtros selecionados. 🎈
+        </div>`;
+          return;
+        }
+
+        grid.innerHTML = items
+          .map((item) => {
+            const isReserved =
+              (item.Status || "").toLowerCase() === "reservado";
+            const rawPrice =
+              item["Preço"] !== undefined
+                ? item["Preço"]
+                : item.Preco !== undefined
+                  ? item.Preco
+                  : "";
+            const displayPrice = rawPrice ? formatItemPrice(rawPrice) : "";
+
+            return `
+          <div class="card ${isReserved ? "reserved" : ""}">
+            <img src="${item.Imagem || "https://via.placeholder.com/300x200?text=Presente"}" alt="${item.Item}">
             <div class="card-body">
-              <span class="badge">${item.Categoria || 'Geral'}</span>
+              <span class="badge">${item.Categoria || "Geral"}</span>
               <h3 class="card-title">${item.Item}</h3>
-              <p class="card-desc">${item.Descricao || ''}</p>
-              ${isReserved 
-                ? `<button class="btn btn-disabled" disabled>✓ Reservado (${item.Reservado_Por || 'Alguém'})</button>`
-                : `<button class="btn btn-primary" onclick="openPresentModal('${item.ID}')">Quero Presentear</button>`
+              ${displayPrice ? `<span class="price-tag">🏷️ ${displayPrice}</span>` : ""}
+              <p class="card-desc">${item.Descricao || ""}</p>
+              ${
+                isReserved
+                  ? `<button class="btn btn-disabled" disabled>✓ Reservado (${item.Reservado_Por || "Alguém"})</button>`
+                  : `<button class="btn btn-primary" onclick="openPresentModal('${item.ID}')">Quero Presentear</button>`
               }
             </div>
           </div>
         `;
-      }).join('');
-    }
-
-    function openPresentModal(id) {
-      selectedPresent = presentsData.find(i => String(i.ID) === String(id));
-      if (!selectedPresent) return;
-
-      document.getElementById('modal-step-form').style.display = 'block';
-      document.getElementById('modal-step-success').style.display = 'none';
-
-      document.getElementById('modal-item-name').innerText = `Presente: ${selectedPresent.Item}`;
-      document.getElementById('guest-name').value = '';
-      document.getElementById('reserve-modal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('reserve-modal').style.display = 'none';
-      selectedPresent = null;
-    }
-
-    async function submitPresentReservation() {
-      const name = document.getElementById('guest-name').value.trim();
-      if (!name) {
-        alert('Por favor, informe seu nome completo para reservar.');
-        return;
-      }
-
-      if (!selectedPresent) {
-        alert('Erro ao identificar o presente selecionado. Feche e tente novamente.');
-        return;
-      }
-
-      const btn = document.getElementById('btn-confirm-present');
-      btn.innerText = 'Confirmando reserva...';
-      btn.disabled = true;
-
-      try {
-        await fetch(API_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            tipo: "presente",
-            id: String(selectedPresent.ID),
-            nome: name
           })
-        });
+          .join("");
+      }
 
-        selectedPresent.Status = "Reservado";
-        selectedPresent.Reservado_Por = name;
-        renderPresents(presentsData);
+      function openPresentModal(id) {
+        selectedPresent = presentsData.find((i) => String(i.ID) === String(id));
+        if (!selectedPresent) return;
 
-        const affiliateBtn = document.getElementById('btn-open-affiliate');
-        const linkSugestao = (selectedPresent.Link || selectedPresent.Link_Sugestao || '').trim();
+        document.getElementById("modal-step-form").style.display = "block";
+        document.getElementById("modal-step-success").style.display = "none";
 
-        if (linkSugestao && linkSugestao !== '') {
-          affiliateBtn.href = linkSugestao;
-          affiliateBtn.style.display = 'inline-block';
-        } else {
-          affiliateBtn.style.display = 'none';
+        document.getElementById("modal-item-name").innerText =
+          `Presente: ${selectedPresent.Item}`;
+        document.getElementById("guest-name").value = "";
+        document.getElementById("reserve-modal").style.display = "flex";
+      }
+
+      function closeModal() {
+        document.getElementById("reserve-modal").style.display = "none";
+        selectedPresent = null;
+      }
+
+      async function submitPresentReservation() {
+        const name = document.getElementById("guest-name").value.trim();
+        if (!name) {
+          alert("Por favor, informe seu nome completo para reservar.");
+          return;
         }
 
-        document.getElementById('modal-step-form').style.display = 'none';
-        document.getElementById('modal-step-success').style.display = 'block';
+        if (!selectedPresent) {
+          alert(
+            "Erro ao identificar o presente selecionado. Feche e tente novamente.",
+          );
+          return;
+        }
 
-      } catch (e) {
-        console.error('Erro na reserva:', e);
-        alert('Ocorreu um erro ao registrar a reserva. Verifique sua conexão e tente novamente.');
-      } finally {
-        btn.innerText = 'Confirmar e Ver Link';
-        btn.disabled = false;
+        const btn = document.getElementById("btn-confirm-present");
+        btn.innerText = "Confirmando reserva...";
+        btn.disabled = true;
+
+        try {
+          await fetch(API_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              tipo: "presente",
+              id: String(selectedPresent.ID),
+              nome: name,
+            }),
+          });
+
+          selectedPresent.Status = "Reservado";
+          selectedPresent.Reservado_Por = name;
+          renderPresents(presentsData);
+
+          const affiliateBtn = document.getElementById("btn-open-affiliate");
+          const linkSugestao = (
+            selectedPresent.Link ||
+            selectedPresent.Link_Sugestao ||
+            ""
+          ).trim();
+
+          if (linkSugestao && linkSugestao !== "") {
+            affiliateBtn.href = linkSugestao;
+            affiliateBtn.style.display = "inline-block";
+          } else {
+            affiliateBtn.style.display = "none";
+          }
+
+          document.getElementById("modal-step-form").style.display = "none";
+          document.getElementById("modal-step-success").style.display = "block";
+        } catch (e) {
+          console.error("Erro na reserva:", e);
+          alert(
+            "Ocorreu um erro ao registrar a reserva. Verifique sua conexão e tente novamente.",
+          );
+        } finally {
+          btn.innerText = "Confirmar e Ver Link";
+          btn.disabled = false;
+        }
       }
-    }
 
-    window.onload = loadData;
-  </script>
-</body>
+      window.onload = loadData;
+    </script>
+  </body>
 </html>
